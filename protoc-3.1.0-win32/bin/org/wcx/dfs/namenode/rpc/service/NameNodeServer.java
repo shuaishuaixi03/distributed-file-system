@@ -3,8 +3,8 @@
 
 package org.wcx.dfs.namenode.rpc.service;
 
-public final class NameNodeRpcServer {
-  private NameNodeRpcServer() {}
+public final class NameNodeServer {
+  private NameNodeServer() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -24,15 +24,22 @@ public final class NameNodeRpcServer {
   static {
     java.lang.String[] descriptorData = {
       "\n\027NameNodeRpcServer.proto\022\030org.wcx.dfs.n" +
-      "amenode.rpc\032\026NameNodeRpcModel.proto2\332\001\n\017" +
+      "amenode.rpc\032\026NameNodeRpcModel.proto2\211\004\n\017" +
       "NameNodeService\022a\n\010register\022).org.wcx.df" +
       "s.namenode.rpc.RegisterRequest\032*.org.wcx" +
       ".dfs.namenode.rpc.RegisterResponse\022d\n\the" +
       "artbeat\022*.org.wcx.dfs.namenode.rpc.Heart" +
       "beatRequest\032+.org.wcx.dfs.namenode.rpc.H" +
-      "eartbeatResponseB7\n org.wcx.dfs.namenode" +
-      ".rpc.serviceB\021NameNodeRpcServerP\001b\006proto" +
-      "3"
+      "eartbeatResponse\022X\n\005mkdir\022&.org.wcx.dfs." +
+      "namenode.rpc.MkdirRequest\032\'.org.wcx.dfs." +
+      "namenode.rpc.MkdirResponse\022a\n\010shutdown\022)",
+      ".org.wcx.dfs.namenode.rpc.ShutdownReques" +
+      "t\032*.org.wcx.dfs.namenode.rpc.ShutdownRes" +
+      "ponse\022p\n\rfetchEditsLog\022..org.wcx.dfs.nam" +
+      "enode.rpc.FetchEditsLogRequest\032/.org.wcx" +
+      ".dfs.namenode.rpc.FetchEditsLogResponseB" +
+      "4\n org.wcx.dfs.namenode.rpc.serviceB\016Nam" +
+      "eNodeServerP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

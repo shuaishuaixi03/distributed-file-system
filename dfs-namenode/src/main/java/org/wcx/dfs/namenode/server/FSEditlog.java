@@ -1,6 +1,9 @@
 package org.wcx.dfs.namenode.server;
 
 
+import java.io.IOException;
+import java.util.List;
+
 /**
  * 负责管理edits log日志
  * @author wcx
@@ -14,7 +17,7 @@ public class FSEditlog {
     //是否正在刷磁盘
     private volatile Boolean shouldSyncRunning = false;
     //同步到磁盘中的最大日志序列号
-    private volatile Long syncMaxTxid = 0L;
+    private volatile Long syncTxid = 0L;
     //是否正在调度一次刷盘的操作
     private volatile Boolean shouldSchedulingSync = false;
     //
@@ -31,7 +34,11 @@ public class FSEditlog {
 
             EditLog log = new EditLog(txid, content);
 
-            doubleBuffer.write(log);
+            try {
+                doubleBuffer.write(log);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             if(!doubleBuffer.shouldSyncToDisk()) {
                 return;
@@ -59,7 +66,7 @@ public class FSEditlog {
             long txid = localTxid.get();
 
             if(shouldSyncRunning) {
-                if(txid <= syncMaxTxid) {
+                if(txid <= syncTxid) {
                     return;
                 }
                 try {
@@ -70,6 +77,51 @@ public class FSEditlog {
                     e.printStackTrace();
                 }
             }
+            doubleBuffer.setReadyToSync();
+            syncTxid = txid;
+            shouldSchedulingSync = false;
+            notifyAll();
+            shouldSyncRunning = true;
+        }
+        try {
+            doubleBuffer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        synchronized(this) {
+            shouldSyncRunning = false;
+            notifyAll();
         }
     }
+
+    //强制把内存缓冲区中的数据刷入磁盘中
+    public void flush() {
+        try {
+            doubleBuffer.setReadyToSync();
+            doubleBuffer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取已经刷入磁盘的editslog数据
+     * @return
+     */
+    public List<String> getFlushedTxids() {
+        synchronized(this) {
+            return doubleBuffer.getFlushedTxids();
+        }
+    }
+
+    /**
+     * 获取当前缓冲区的editslog数据
+     * @return
+     */
+    public String[] getBufferedEditsLog() {
+        synchronized(this) {
+            return doubleBuffer.getBufferedEditsLog();
+        }
+    }
+
 }

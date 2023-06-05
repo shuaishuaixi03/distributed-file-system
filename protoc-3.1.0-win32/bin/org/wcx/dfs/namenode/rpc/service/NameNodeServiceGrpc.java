@@ -39,6 +39,33 @@ public class NameNodeServiceGrpc {
               "org.wcx.dfs.namenode.rpc.NameNodeService", "heartbeat"),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.HeartbeatRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.HeartbeatResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.wcx.dfs.namenode.rpc.model.MkdirRequest,
+      org.wcx.dfs.namenode.rpc.model.MkdirResponse> METHOD_MKDIR =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.wcx.dfs.namenode.rpc.NameNodeService", "mkdir"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.MkdirRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.MkdirResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.wcx.dfs.namenode.rpc.model.ShutdownRequest,
+      org.wcx.dfs.namenode.rpc.model.ShutdownResponse> METHOD_SHUTDOWN =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.wcx.dfs.namenode.rpc.NameNodeService", "shutdown"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.ShutdownRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.ShutdownResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest,
+      org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> METHOD_FETCH_EDITS_LOG =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.wcx.dfs.namenode.rpc.NameNodeService", "fetchEditsLog"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse.getDefaultInstance()));
 
   public static NameNodeServiceStub newStub(io.grpc.Channel channel) {
     return new NameNodeServiceStub(channel);
@@ -61,6 +88,15 @@ public class NameNodeServiceGrpc {
 
     public void heartbeat(org.wcx.dfs.namenode.rpc.model.HeartbeatRequest request,
         io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.HeartbeatResponse> responseObserver);
+
+    public void mkdir(org.wcx.dfs.namenode.rpc.model.MkdirRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.MkdirResponse> responseObserver);
+
+    public void shutdown(org.wcx.dfs.namenode.rpc.model.ShutdownRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.ShutdownResponse> responseObserver);
+
+    public void fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> responseObserver);
   }
 
   public static interface NameNodeServiceBlockingClient {
@@ -68,6 +104,12 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.RegisterResponse register(org.wcx.dfs.namenode.rpc.model.RegisterRequest request);
 
     public org.wcx.dfs.namenode.rpc.model.HeartbeatResponse heartbeat(org.wcx.dfs.namenode.rpc.model.HeartbeatRequest request);
+
+    public org.wcx.dfs.namenode.rpc.model.MkdirResponse mkdir(org.wcx.dfs.namenode.rpc.model.MkdirRequest request);
+
+    public org.wcx.dfs.namenode.rpc.model.ShutdownResponse shutdown(org.wcx.dfs.namenode.rpc.model.ShutdownRequest request);
+
+    public org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request);
   }
 
   public static interface NameNodeServiceFutureClient {
@@ -77,6 +119,15 @@ public class NameNodeServiceGrpc {
 
     public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.HeartbeatResponse> heartbeat(
         org.wcx.dfs.namenode.rpc.model.HeartbeatRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.MkdirResponse> mkdir(
+        org.wcx.dfs.namenode.rpc.model.MkdirRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.ShutdownResponse> shutdown(
+        org.wcx.dfs.namenode.rpc.model.ShutdownRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> fetchEditsLog(
+        org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request);
   }
 
   public static class NameNodeServiceStub extends io.grpc.stub.AbstractStub<NameNodeServiceStub>
@@ -109,6 +160,27 @@ public class NameNodeServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_HEARTBEAT, getCallOptions()), request, responseObserver);
     }
+
+    @java.lang.Override
+    public void mkdir(org.wcx.dfs.namenode.rpc.model.MkdirRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.MkdirResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_MKDIR, getCallOptions()), request, responseObserver);
+    }
+
+    @java.lang.Override
+    public void shutdown(org.wcx.dfs.namenode.rpc.model.ShutdownRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.ShutdownResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_SHUTDOWN, getCallOptions()), request, responseObserver);
+    }
+
+    @java.lang.Override
+    public void fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_FETCH_EDITS_LOG, getCallOptions()), request, responseObserver);
+    }
   }
 
   public static class NameNodeServiceBlockingStub extends io.grpc.stub.AbstractStub<NameNodeServiceBlockingStub>
@@ -138,6 +210,24 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.HeartbeatResponse heartbeat(org.wcx.dfs.namenode.rpc.model.HeartbeatRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_HEARTBEAT, getCallOptions(), request);
+    }
+
+    @java.lang.Override
+    public org.wcx.dfs.namenode.rpc.model.MkdirResponse mkdir(org.wcx.dfs.namenode.rpc.model.MkdirRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_MKDIR, getCallOptions(), request);
+    }
+
+    @java.lang.Override
+    public org.wcx.dfs.namenode.rpc.model.ShutdownResponse shutdown(org.wcx.dfs.namenode.rpc.model.ShutdownRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_SHUTDOWN, getCallOptions(), request);
+    }
+
+    @java.lang.Override
+    public org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_FETCH_EDITS_LOG, getCallOptions(), request);
     }
   }
 
@@ -171,10 +261,34 @@ public class NameNodeServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_HEARTBEAT, getCallOptions()), request);
     }
+
+    @java.lang.Override
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.MkdirResponse> mkdir(
+        org.wcx.dfs.namenode.rpc.model.MkdirRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_MKDIR, getCallOptions()), request);
+    }
+
+    @java.lang.Override
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.ShutdownResponse> shutdown(
+        org.wcx.dfs.namenode.rpc.model.ShutdownRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_SHUTDOWN, getCallOptions()), request);
+    }
+
+    @java.lang.Override
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> fetchEditsLog(
+        org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_FETCH_EDITS_LOG, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REGISTER = 0;
   private static final int METHODID_HEARTBEAT = 1;
+  private static final int METHODID_MKDIR = 2;
+  private static final int METHODID_SHUTDOWN = 3;
+  private static final int METHODID_FETCH_EDITS_LOG = 4;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -199,6 +313,18 @@ public class NameNodeServiceGrpc {
         case METHODID_HEARTBEAT:
           serviceImpl.heartbeat((org.wcx.dfs.namenode.rpc.model.HeartbeatRequest) request,
               (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.HeartbeatResponse>) responseObserver);
+          break;
+        case METHODID_MKDIR:
+          serviceImpl.mkdir((org.wcx.dfs.namenode.rpc.model.MkdirRequest) request,
+              (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.MkdirResponse>) responseObserver);
+          break;
+        case METHODID_SHUTDOWN:
+          serviceImpl.shutdown((org.wcx.dfs.namenode.rpc.model.ShutdownRequest) request,
+              (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.ShutdownResponse>) responseObserver);
+          break;
+        case METHODID_FETCH_EDITS_LOG:
+          serviceImpl.fetchEditsLog((org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest) request,
+              (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -232,6 +358,27 @@ public class NameNodeServiceGrpc {
               org.wcx.dfs.namenode.rpc.model.HeartbeatRequest,
               org.wcx.dfs.namenode.rpc.model.HeartbeatResponse>(
                 serviceImpl, METHODID_HEARTBEAT)))
+        .addMethod(
+          METHOD_MKDIR,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.wcx.dfs.namenode.rpc.model.MkdirRequest,
+              org.wcx.dfs.namenode.rpc.model.MkdirResponse>(
+                serviceImpl, METHODID_MKDIR)))
+        .addMethod(
+          METHOD_SHUTDOWN,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.wcx.dfs.namenode.rpc.model.ShutdownRequest,
+              org.wcx.dfs.namenode.rpc.model.ShutdownResponse>(
+                serviceImpl, METHODID_SHUTDOWN)))
+        .addMethod(
+          METHOD_FETCH_EDITS_LOG,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest,
+              org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse>(
+                serviceImpl, METHODID_FETCH_EDITS_LOG)))
         .build();
   }
 }

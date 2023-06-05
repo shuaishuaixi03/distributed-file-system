@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="dfs-rpc" />
-        <module name="dfs-datanode" />
+        <module name="dfs-client" />
         <module name="dfs-namenode" />
+        <module name="dfs-datanode" />
+        <module name="dfs-backupnode" />
       </profile>
     </annotationProcessing>
   </component>

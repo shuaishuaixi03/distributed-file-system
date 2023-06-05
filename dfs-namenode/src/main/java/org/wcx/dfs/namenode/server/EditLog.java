@@ -1,5 +1,8 @@
 package org.wcx.dfs.namenode.server;
 
+
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 表示一条日志（对内存中文件目录树的一次操作日志）
  * @author wcx
@@ -11,7 +14,10 @@ public class EditLog {
 
     public EditLog(long txid, String content) {
         this.txid = txid;
-        this.content = content;
+
+        JSONObject jsonObject = JSONObject.parseObject(content);
+        jsonObject.put("txid", txid);
+        this.content = jsonObject.toJSONString();
     }
 
     public long getTxid() {
@@ -23,7 +29,7 @@ public class EditLog {
     public String getContent() {
         return content;
     }
-    public void setetContent(String content) {
+    public void setContent(String content) {
         this.content = content;
     }
     @Override
