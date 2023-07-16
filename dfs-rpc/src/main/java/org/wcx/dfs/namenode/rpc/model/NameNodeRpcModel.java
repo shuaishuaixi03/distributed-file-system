@@ -74,6 +74,16 @@ public final class NameNodeRpcModel {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_wcx_dfs_namenode_rpc_UpdateCheckpointTxidResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_wcx_dfs_namenode_rpc_CreateFileRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_wcx_dfs_namenode_rpc_CreateFileRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -96,8 +106,10 @@ public final class NameNodeRpcModel {
       "\n\025FetchEditsLogResponse\022\020\n\010editsLog\030\001 \001(" +
       "\t\"+\n\033UpdateCheckpointTxidRequest\022\014\n\004txid" +
       "\030\001 \001(\003\".\n\034UpdateCheckpointTxidResponse\022\016" +
-      "\n\006status\030\001 \001(\005B4\n\036org.wcx.dfs.namenode.r" +
-      "pc.modelB\020NameNodeRpcModelP\001b\006proto3"
+      "\n\006status\030\001 \001(\005\"%\n\021CreateFileRequest\022\020\n\010f" +
+      "ilename\030\001 \001(\t\"$\n\022CreateFileResponse\022\016\n\006s" +
+      "tatus\030\001 \001(\005B4\n\036org.wcx.dfs.namenode.rpc." +
+      "modelB\020NameNodeRpcModelP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -182,6 +194,18 @@ public final class NameNodeRpcModel {
     internal_static_org_wcx_dfs_namenode_rpc_UpdateCheckpointTxidResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_wcx_dfs_namenode_rpc_UpdateCheckpointTxidResponse_descriptor,
+        new String[] { "Status", });
+    internal_static_org_wcx_dfs_namenode_rpc_CreateFileRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_org_wcx_dfs_namenode_rpc_CreateFileRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_wcx_dfs_namenode_rpc_CreateFileRequest_descriptor,
+        new String[] { "Filename", });
+    internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_descriptor,
         new String[] { "Status", });
   }
 

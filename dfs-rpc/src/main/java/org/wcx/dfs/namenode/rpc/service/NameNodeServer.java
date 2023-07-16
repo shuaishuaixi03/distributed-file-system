@@ -24,7 +24,7 @@ public final class NameNodeServer {
   static {
     String[] descriptorData = {
       "\n\027NameNodeRpcServer.proto\022\030org.wcx.dfs.n" +
-      "amenode.rpc\032\026NameNodeRpcModel.proto2\221\005\n\017" +
+      "amenode.rpc\032\026NameNodeRpcModel.proto2\366\005\n\017" +
       "NameNodeService\022a\n\010register\022).org.wcx.df" +
       "s.namenode.rpc.RegisterRequest\032*.org.wcx" +
       ".dfs.namenode.rpc.RegisterResponse\022d\n\the" +
@@ -41,8 +41,11 @@ public final class NameNodeServer {
       "\205\001\n\024updateCheckpointTxid\0225.org.wcx.dfs.n" +
       "amenode.rpc.UpdateCheckpointTxidRequest\032" +
       "6.org.wcx.dfs.namenode.rpc.UpdateCheckpo" +
-      "intTxidResponseB4\n org.wcx.dfs.namenode." +
-      "rpc.serviceB\016NameNodeServerP\001b\006proto3"
+      "intTxidResponse\022c\n\006create\022+.org.wcx.dfs." +
+      "namenode.rpc.CreateFileRequest\032,.org.wcx",
+      ".dfs.namenode.rpc.CreateFileResponseB4\n " +
+      "org.wcx.dfs.namenode.rpc.serviceB\016NameNo" +
+      "deServerP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

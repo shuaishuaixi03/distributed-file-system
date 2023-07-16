@@ -323,4 +323,16 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    /**
+     * 创建文件
+     * @param request
+     * @param responseObserver
+     */
+    @Override
+    public void create(CreateFileRequest request, StreamObserver<CreateFileResponse> responseObserver) {
+        String filename = request.getFilename();
+    }
+
+
 }

@@ -56,6 +56,20 @@ public class FSNamesystem {
     }
 
     /**
+     * 创建文件
+     * @param filename 文件名，包含所在的路径
+     * @return
+     * @throws Exception
+     */
+    public Boolean create(String filename) throws Exception {
+        if (!directory.create(filename)) {
+            return false;
+        }
+        //TODO 这里写一条editlog
+        return true;
+    }
+
+    /**
      * 强制把内存里的edits log刷入磁盘中
      */
     public void flush() {

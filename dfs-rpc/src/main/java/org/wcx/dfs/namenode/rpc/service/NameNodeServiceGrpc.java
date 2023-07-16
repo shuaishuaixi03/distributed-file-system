@@ -75,6 +75,15 @@ public class NameNodeServiceGrpc {
               "org.wcx.dfs.namenode.rpc.NameNodeService", "updateCheckpointTxid"),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.wcx.dfs.namenode.rpc.model.CreateFileRequest,
+      org.wcx.dfs.namenode.rpc.model.CreateFileResponse> METHOD_CREATE =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.wcx.dfs.namenode.rpc.NameNodeService", "create"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.CreateFileRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.CreateFileResponse.getDefaultInstance()));
 
   public static NameNodeServiceStub newStub(io.grpc.Channel channel) {
     return new NameNodeServiceStub(channel);
@@ -109,6 +118,9 @@ public class NameNodeServiceGrpc {
 
     public void updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request,
         io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> responseObserver);
+
+    public void create(org.wcx.dfs.namenode.rpc.model.CreateFileRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.CreateFileResponse> responseObserver);
   }
 
   public static interface NameNodeServiceBlockingClient {
@@ -124,6 +136,8 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request);
 
     public org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request);
+
+    public org.wcx.dfs.namenode.rpc.model.CreateFileResponse create(org.wcx.dfs.namenode.rpc.model.CreateFileRequest request);
   }
 
   public static interface NameNodeServiceFutureClient {
@@ -145,6 +159,9 @@ public class NameNodeServiceGrpc {
 
     public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> updateCheckpointTxid(
         org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.CreateFileResponse> create(
+        org.wcx.dfs.namenode.rpc.model.CreateFileRequest request);
   }
 
   public static class NameNodeServiceStub extends io.grpc.stub.AbstractStub<NameNodeServiceStub>
@@ -205,6 +222,13 @@ public class NameNodeServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_UPDATE_CHECKPOINT_TXID, getCallOptions()), request, responseObserver);
     }
+
+    @Override
+    public void create(org.wcx.dfs.namenode.rpc.model.CreateFileRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.CreateFileResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_CREATE, getCallOptions()), request, responseObserver);
+    }
   }
 
   public static class NameNodeServiceBlockingStub extends io.grpc.stub.AbstractStub<NameNodeServiceBlockingStub>
@@ -258,6 +282,12 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_UPDATE_CHECKPOINT_TXID, getCallOptions(), request);
+    }
+
+    @Override
+    public org.wcx.dfs.namenode.rpc.model.CreateFileResponse create(org.wcx.dfs.namenode.rpc.model.CreateFileRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_CREATE, getCallOptions(), request);
     }
   }
 
@@ -319,6 +349,13 @@ public class NameNodeServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_UPDATE_CHECKPOINT_TXID, getCallOptions()), request);
     }
+
+    @Override
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.CreateFileResponse> create(
+        org.wcx.dfs.namenode.rpc.model.CreateFileRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_CREATE, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REGISTER = 0;
@@ -327,6 +364,7 @@ public class NameNodeServiceGrpc {
   private static final int METHODID_SHUTDOWN = 3;
   private static final int METHODID_FETCH_EDITS_LOG = 4;
   private static final int METHODID_UPDATE_CHECKPOINT_TXID = 5;
+  private static final int METHODID_CREATE = 6;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -367,6 +405,10 @@ public class NameNodeServiceGrpc {
         case METHODID_UPDATE_CHECKPOINT_TXID:
           serviceImpl.updateCheckpointTxid((org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest) request,
               (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse>) responseObserver);
+          break;
+        case METHODID_CREATE:
+          serviceImpl.create((org.wcx.dfs.namenode.rpc.model.CreateFileRequest) request,
+              (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.CreateFileResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -428,6 +470,13 @@ public class NameNodeServiceGrpc {
               org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest,
               org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse>(
                 serviceImpl, METHODID_UPDATE_CHECKPOINT_TXID)))
+        .addMethod(
+          METHOD_CREATE,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.wcx.dfs.namenode.rpc.model.CreateFileRequest,
+              org.wcx.dfs.namenode.rpc.model.CreateFileResponse>(
+                serviceImpl, METHODID_CREATE)))
         .build();
   }
 }

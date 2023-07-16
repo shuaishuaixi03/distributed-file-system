@@ -9,6 +9,7 @@ import org.wcx.dfs.namenode.rpc.model.ShutdownRequest;
 import org.wcx.dfs.namenode.rpc.service.NameNodeServiceGrpc;
 
 /**
+ * 文件系统客户端的实现类
  * @author wcx
  * @date 2023/5/17 19:15
  */
@@ -27,6 +28,11 @@ public class FileSystemImpl implements FileSystem{
         this.namenode = NameNodeServiceGrpc.newBlockingStub(channel);
     }
 
+    /**
+     * 创建目录
+     * @param path 目录对应的文件路径
+     * @throws Exception
+     */
     @Override
     public void mkdir(String path) throws Exception {
         MkdirRequest request = MkdirRequest.newBuilder()
@@ -37,11 +43,25 @@ public class FileSystemImpl implements FileSystem{
         System.out.println("创建目录的响应: " + response.getStatus());
     }
 
+    /**
+     * 优雅关闭
+     * @throws Exception
+     */
     @Override
     public void shutdown() throws Exception {
         ShutdownRequest request = ShutdownRequest.newBuilder()
                 .setCode(1)
                 .build();
         this.namenode.shutdown(request);
+    }
+
+    /**
+     * 上传文件
+     * @param file 文件的字节数组
+     * @param filename 文件名
+     * @throws Exception
+     */
+    public void upload(byte[] file, String filename) throws Exception {
+
     }
 }
