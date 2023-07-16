@@ -1,6 +1,5 @@
 package org.wcx.dfs.namenode.server;
 
-import sun.rmi.runtime.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -8,8 +7,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 用来操作内存双缓冲区的组件
@@ -17,26 +16,33 @@ import java.util.List;
  * @date 2023/5/14 17:41
  */
 public class DoubleBuffer {
-    //一块editslog缓冲区的最大大小，默认是25kb
+    //一块editslog缓冲区的最大容量
     public static final Integer EDIT_LOG_BUFFER_LIMIT = 25 * 1024;
 
-    //currentBuffer缓冲区用来写入文件目录树的操作日志
+    //专门用来承载线程写入editslog日志
     private EditLogBuffer currentBuffer = new EditLogBuffer();
 
-    //syncBuffer缓冲区用来刷盘
+    //专门用来将editslog日志数据刷入到磁盘中
     private EditLogBuffer syncBuffer = new EditLogBuffer();
 
-    //当前这块缓冲区写入的最大的一个txid
+    //写入editslog日志中最大的一个txid
     private Long startTxid = 1L;
 
-    //已经刷入磁盘的txid范围
-    private List<String> flushedTxids = new ArrayList<>();
+    //已经刷入到磁盘中editslog日志的txid范围
+    private List<String> flushedTxids = new CopyOnWriteArrayList<>();
 
+    /**
+     * 将edits log日志写入内存的currentBuffer缓冲区中
+     * @param log
+     * @throws IOException
+     */
     public void write(EditLog log) throws IOException {
         currentBuffer.write(log);
     }
 
-    //判断currentBuffer缓存区是否写满，需要刷入到磁盘中
+    /**
+     * 判断内存的currentBuffer缓冲区是否写满，是否需要刷盘操作
+     */
     public boolean shouldSyncToDisk() {
         if(currentBuffer.size() >= EDIT_LOG_BUFFER_LIMIT) {
             return true;
@@ -44,25 +50,36 @@ public class DoubleBuffer {
         return false;
     }
 
-    //交换缓冲区
+    /**
+     * 交换currentBuffer和syncBuffer缓冲区，为后续刷盘操作做准备工作
+     */
     public void setReadyToSync() {
         EditLogBuffer temp = currentBuffer;
         currentBuffer = syncBuffer;
         syncBuffer = temp;
     }
 
-    //syncBuffer缓冲区刷磁盘操作
+    /**
+     * 将syncBuffer缓冲区中的数据刷入磁盘中
+     * @throws IOException
+     */
     public void flush() throws IOException {
         syncBuffer.flush();
         syncBuffer.clear();
     }
 
-    //获取已经刷入磁盘的editslog数据
+    /**
+     * 获取已经刷入磁盘的editslog日志数据的txid范围
+     * @return
+     */
     public List<String> getFlushedTxids() {
         return flushedTxids;
     }
 
-    //获取当前缓冲区里的editslog数据
+    /**
+     * 获取内存中currentBuffer缓冲区的editslog日志数据
+     * @return
+     */
     public String[] getBufferedEditsLog() {
         if (currentBuffer.size() == 0) {
             return null;
@@ -73,14 +90,14 @@ public class DoubleBuffer {
 
 
     /**
-     * 表示缓冲区
+     * 表示内存中用来存放edits log日志的缓冲区
      */
     class EditLogBuffer {
 
         //针对内存缓冲区的字节数组输出流
         ByteArrayOutputStream buffer;
 
-        //上一次刷入磁盘的最大txid
+        //上一次刷入
         long endTxid = 0L;
 
         public EditLogBuffer() {

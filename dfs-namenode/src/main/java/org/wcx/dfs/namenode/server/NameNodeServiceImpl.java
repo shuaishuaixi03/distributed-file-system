@@ -34,11 +34,6 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
     private volatile Boolean shouldRunning = true;
 
     /**
-     * 当前backupNode节点同步到了哪一条txid了
-     */
-    private long syncedTxid = 0L;
-
-    /**
      * 当前缓冲区的一小部分editslog
      */
     private JSONArray currentBufferedEditsLog = new JSONArray();
@@ -113,28 +108,45 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
     public void shutdown(ShutdownRequest request, StreamObserver<ShutdownResponse> responseObserver) {
         this.shouldRunning = false;
         this.namesystem.flush();
+        this.namesystem.saveCheckpointTxid();
+        System.out.println("优雅关闭namenode......");
     }
 
     @Override
     public void fetchEditsLog(FetchEditsLogRequest request, StreamObserver<FetchEditsLogResponse> responseObserver) {
+        if(!shouldRunning) {
+            FetchEditsLogResponse response = FetchEditsLogResponse.newBuilder()
+                    .setEditsLog(new JSONArray().toJSONString())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            return;
+        }
+
+        long syncedTxid = request.getSyncedTxid();
+
         FetchEditsLogResponse response = null;
         JSONArray fetchedEditsLog = new JSONArray();
 
         List<String> flushedTxids = namesystem.getEditlog().getFlushedTxids();
+        System.out.println("hello");
+        for (String str : flushedTxids) {
+            System.out.println(str);
+        }
 
         //此时没有editslog数据被刷入磁盘中，backupnode需要从currentBuffer缓冲区中拉取数据
         if (flushedTxids.size() == 0) {
             System.out.println("暂时没有任何磁盘文件，直接从内存缓冲中拉取editslog......");
-            fetchFromBufferedEditsLog(fetchedEditsLog);
+            fetchFromBufferedEditsLog(syncedTxid, fetchedEditsLog);
         }
         //此时有editslog数据被刷入磁盘中
         else {
             //backnodeup_editslog缓冲区有从磁盘文件中读取的数据
             if (bufferedFlushedTxid != null) {
                 //如果backupnode拉取的editslog数据在当前的editslog磁盘文件中
-                if (existInFlushedFile(bufferedFlushedTxid)) {
+                if (existInFlushedFile(syncedTxid, bufferedFlushedTxid)) {
                     System.out.println("上一次已经缓存过磁盘文件的数据，直接从磁盘文件缓存中拉取editslog......");
-                    fetchFromCurrentBuffer(fetchedEditsLog);
+                    fetchFromCurrentBuffer(syncedTxid, fetchedEditsLog);
                 }
                 //如果backupnode拉取的editslog数据不在editslog磁盘文件中，需要从下一个磁盘文件中读取
                 else {
@@ -142,12 +154,12 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
                     //找到了要拉取editslog数据的磁盘editslog文件
                     if (nextFlushedTxid != null) {
                         System.out.println("上一次缓存的磁盘文件找不到要拉取的数据，从下一个磁盘文件中拉取editslog......");
-                        fetchFromFlushedFile(nextFlushedTxid, fetchedEditsLog);
+                        fetchFromFlushedFile(syncedTxid, nextFlushedTxid, fetchedEditsLog);
                     }
                     //没找到，说明要拉取的editslog数据在currentBuffer缓冲区中
                     else {
                         System.out.println("上一次缓存的磁盘文件找不到要拉取的数据，而且没有下一个磁盘文件，尝试从内存缓冲中拉取editslog......");
-                        fetchFromBufferedEditsLog(fetchedEditsLog);
+                        fetchFromBufferedEditsLog(syncedTxid, fetchedEditsLog);
                     }
                 }
             } else {
@@ -155,9 +167,9 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
 
                 //backupnode要拉取的数据在某一个磁盘文件中
                 for (String flushedTxid : flushedTxids) {
-                    if (existInFlushedFile(flushedTxid)) {
+                    if (existInFlushedFile(syncedTxid, flushedTxid)) {
                         System.out.println("尝试从磁盘文件中拉取editslog, flushedTxid=" + flushedTxid);
-                        fetchFromFlushedFile(flushedTxid, fetchedEditsLog);
+                        fetchFromFlushedFile(syncedTxid, flushedTxid, fetchedEditsLog);
                         fetchFromFlushedFile = true;
                         break;
                     }
@@ -166,7 +178,7 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
                 //backupnode要拉取的数据比磁盘文件中的新，在currentBuffer缓冲区中
                 if (!fetchFromFlushedFile) {
                     System.out.println("所有磁盘文件都没找到要拉取的editslog, 尝试直接从内存缓冲中拉取editslog......");
-                    fetchFromBufferedEditsLog(fetchedEditsLog);
+                    fetchFromBufferedEditsLog(syncedTxid, fetchedEditsLog);
                 }
             }
         }
@@ -200,7 +212,7 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
      * @param flushedTxid
      * @param fetchedEditsLog
      */
-    private void fetchFromFlushedFile(String flushedTxid, JSONArray fetchedEditsLog) {
+    private void fetchFromFlushedFile(long syncedTxid, String flushedTxid, JSONArray fetchedEditsLog) {
         try {
             String[] flushedTxidSplited = flushedTxid.split("_");
             long startTxid = Long.valueOf(flushedTxidSplited[0]);
@@ -220,7 +232,7 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
             }
             bufferedFlushedTxid = flushedTxid;
 
-            fetchFromCurrentBuffer(fetchedEditsLog);
+            fetchFromCurrentBuffer(syncedTxid, fetchedEditsLog);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -231,12 +243,13 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
      * 从backupnode_editslog缓冲区中拉取数据
      * @param fetchedEditsLog
      */
-    private void fetchFromCurrentBuffer(JSONArray fetchedEditsLog) {
+    private void fetchFromCurrentBuffer(long syncedTxid, JSONArray fetchedEditsLog) {
         int fetchCount = 0;
+        long fetchTxid = syncedTxid + 1;
         for (int i = 0; i < currentBufferedEditsLog.size(); i ++) {
-            if (currentBufferedEditsLog.getJSONObject(i).getLong("txid") == syncedTxid + 1) {
+            if (currentBufferedEditsLog.getJSONObject(i).getLong("txid") == fetchTxid) {
                 fetchedEditsLog.add(currentBufferedEditsLog.getJSONObject(i));
-                syncedTxid = currentBufferedEditsLog.getJSONObject(i).getLong("txid");
+                fetchTxid = currentBufferedEditsLog.getJSONObject(i).getLongValue("txid") + 1;
                 fetchCount ++;
             }
             if (fetchCount == BACKUP_NODE_FETCH_SIZE) {
@@ -249,12 +262,12 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
      * 从currentBuffer缓冲区中拉取editslog数据到backupnode_editslog缓冲区中
      * @param fetchedEditsLog
      */
-    private void fetchFromBufferedEditsLog(JSONArray fetchedEditsLog) {
+    private void fetchFromBufferedEditsLog(long syncedTxid, JSONArray fetchedEditsLog) {
 
         long fetchTxid = syncedTxid + 1;
         if (fetchTxid <= currentBufferedMaxTxid) {
             System.out.println("尝试从内存缓冲拉取的时候，发现上一次内存缓存有数据可供拉取......");
-            fetchFromCurrentBuffer(fetchedEditsLog);
+            fetchFromCurrentBuffer(syncedTxid, fetchedEditsLog);
             return;
         }
 
@@ -270,7 +283,7 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
                 currentBufferedMaxTxid = JSONObject.parseObject(editsLog).getLongValue("txid");
             }
             bufferedFlushedTxid = null;
-            fetchFromCurrentBuffer(fetchedEditsLog);
+            fetchFromCurrentBuffer(syncedTxid, fetchedEditsLog);
         }
 
     }
@@ -280,7 +293,7 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
      * @param flushedTxid
      * @return
      */
-    private Boolean existInFlushedFile(String flushedTxid) {
+    private Boolean existInFlushedFile(long syncedTxid, String flushedTxid) {
         String[] flushedTxidSplited = flushedTxid.split("_");
 
         long startTxid = Long.valueOf(flushedTxidSplited[0]);
@@ -293,5 +306,21 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
 
         return false;
 
+    }
+
+    /**
+     * 更新checkpoint txid
+     */
+    @Override
+    public void updateCheckpointTxid(UpdateCheckpointTxidRequest request, StreamObserver<UpdateCheckpointTxidResponse> responseObserver) {
+        long txid = request.getTxid();
+        namesystem.setCheckpointTxid(txid);
+
+        UpdateCheckpointTxidResponse response = UpdateCheckpointTxidResponse.newBuilder()
+                .setStatus(1)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 }

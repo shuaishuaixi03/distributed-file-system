@@ -8,7 +8,7 @@ public interface FetchEditsLogRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int32 code = 1;</code>
+   * <code>optional int64 syncedTxid = 1;</code>
    */
-  int getCode();
+  long getSyncedTxid();
 }

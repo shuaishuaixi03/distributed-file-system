@@ -1,6 +1,5 @@
 package org.wcx.dfs.namenode.server;
 
-import java.io.IOException;
 
 /**
  * NameNode核心启动类

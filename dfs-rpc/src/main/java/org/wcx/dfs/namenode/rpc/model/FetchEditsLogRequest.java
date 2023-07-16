@@ -15,7 +15,7 @@ public  final class FetchEditsLogRequest extends
     super(builder);
   }
   private FetchEditsLogRequest() {
-    code_ = 0;
+    syncedTxid_ = 0L;
   }
 
   @Override
@@ -45,7 +45,7 @@ public  final class FetchEditsLogRequest extends
           }
           case 8: {
 
-            code_ = input.readInt32();
+            syncedTxid_ = input.readInt64();
             break;
           }
         }
@@ -71,13 +71,13 @@ public  final class FetchEditsLogRequest extends
             FetchEditsLogRequest.class, Builder.class);
   }
 
-  public static final int CODE_FIELD_NUMBER = 1;
-  private int code_;
+  public static final int SYNCEDTXID_FIELD_NUMBER = 1;
+  private long syncedTxid_;
   /**
-   * <code>optional int32 code = 1;</code>
+   * <code>optional int64 syncedTxid = 1;</code>
    */
-  public int getCode() {
-    return code_;
+  public long getSyncedTxid() {
+    return syncedTxid_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -92,8 +92,8 @@ public  final class FetchEditsLogRequest extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (code_ != 0) {
-      output.writeInt32(1, code_);
+    if (syncedTxid_ != 0L) {
+      output.writeInt64(1, syncedTxid_);
     }
   }
 
@@ -102,9 +102,9 @@ public  final class FetchEditsLogRequest extends
     if (size != -1) return size;
 
     size = 0;
-    if (code_ != 0) {
+    if (syncedTxid_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, code_);
+        .computeInt64Size(1, syncedTxid_);
     }
     memoizedSize = size;
     return size;
@@ -122,8 +122,8 @@ public  final class FetchEditsLogRequest extends
     FetchEditsLogRequest other = (FetchEditsLogRequest) obj;
 
     boolean result = true;
-    result = result && (getCode()
-        == other.getCode());
+    result = result && (getSyncedTxid()
+        == other.getSyncedTxid());
     return result;
   }
 
@@ -134,8 +134,9 @@ public  final class FetchEditsLogRequest extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    hash = (37 * hash) + CODE_FIELD_NUMBER;
-    hash = (53 * hash) + getCode();
+    hash = (37 * hash) + SYNCEDTXID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getSyncedTxid());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -254,7 +255,7 @@ public  final class FetchEditsLogRequest extends
     }
     public Builder clear() {
       super.clear();
-      code_ = 0;
+      syncedTxid_ = 0L;
 
       return this;
     }
@@ -278,7 +279,7 @@ public  final class FetchEditsLogRequest extends
 
     public FetchEditsLogRequest buildPartial() {
       FetchEditsLogRequest result = new FetchEditsLogRequest(this);
-      result.code_ = code_;
+      result.syncedTxid_ = syncedTxid_;
       onBuilt();
       return result;
     }
@@ -320,8 +321,8 @@ public  final class FetchEditsLogRequest extends
 
     public Builder mergeFrom(FetchEditsLogRequest other) {
       if (other == FetchEditsLogRequest.getDefaultInstance()) return this;
-      if (other.getCode() != 0) {
-        setCode(other.getCode());
+      if (other.getSyncedTxid() != 0L) {
+        setSyncedTxid(other.getSyncedTxid());
       }
       onChanged();
       return this;
@@ -349,28 +350,28 @@ public  final class FetchEditsLogRequest extends
       return this;
     }
 
-    private int code_ ;
+    private long syncedTxid_ ;
     /**
-     * <code>optional int32 code = 1;</code>
+     * <code>optional int64 syncedTxid = 1;</code>
      */
-    public int getCode() {
-      return code_;
+    public long getSyncedTxid() {
+      return syncedTxid_;
     }
     /**
-     * <code>optional int32 code = 1;</code>
+     * <code>optional int64 syncedTxid = 1;</code>
      */
-    public Builder setCode(int value) {
+    public Builder setSyncedTxid(long value) {
       
-      code_ = value;
+      syncedTxid_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 code = 1;</code>
+     * <code>optional int64 syncedTxid = 1;</code>
      */
-    public Builder clearCode() {
+    public Builder clearSyncedTxid() {
       
-      code_ = 0;
+      syncedTxid_ = 0L;
       onChanged();
       return this;
     }

@@ -4,12 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 从namenode同步editslog的组件
+ * backupnode负责管理从namenode拉取editslog日志的组件
  * @author wcx
  * @date 2023/5/19 17:15
  */
 public class EditsLogFetcher extends Thread {
 
+    //每次backupnode至少需要拉取多少条editslog日志
     public static final Integer BACKUP_NODE_FETCH_SIZE = 10;
 
     private BackupNode backupNode;
@@ -17,9 +18,9 @@ public class EditsLogFetcher extends Thread {
 
     private FSNamesystem namesystem;
 
-    public EditsLogFetcher(BackupNode backupNode, FSNamesystem namesystem) {
+    public EditsLogFetcher(BackupNode backupNode, FSNamesystem namesystem, NameNodeRpcClient namenode) {
         this.backupNode = backupNode;
-        this.namenode = new NameNodeRpcClient();
+        this.namenode = namenode;
         this.namesystem = namesystem;
     }
 
@@ -28,9 +29,20 @@ public class EditsLogFetcher extends Thread {
         System.out.println("Editslog抓取线程已经启动......");
         while (backupNode.shouldRunning()) {
             try {
-                JSONArray editsLogs = namenode.fetchEditsLog();
+
+                if (!namesystem.finshedRecover()) {
+                    System.out.println("namenode当前还没有完成元数据恢复, 不进行editlog同步......");
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                long syncedTxid = namesystem.getSyncedTxid();
+//                System.out.println("backupnode已经同步到的txid为: " + syncedTxid);
+
+                JSONArray editsLogs = namenode.fetchEditsLog(syncedTxid);
+
                 if (editsLogs.size() == 0) {
-                    System.out.println("没有拉取到如何一条editsslog，等待1s");
+                    System.out.println("没有拉取到如何一条editsslog，等待1s后继续尝试拉取");
                     Thread.sleep(1000);
                     continue;
                 }
@@ -53,8 +65,11 @@ public class EditsLogFetcher extends Thread {
                         }
                     }
                 }
+
+                namenode.setShouldNamenodeRunninng(true);
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                namenode.setShouldNamenodeRunninng(false);
             }
         }
     }

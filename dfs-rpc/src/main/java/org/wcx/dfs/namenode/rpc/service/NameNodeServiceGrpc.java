@@ -66,6 +66,15 @@ public class NameNodeServiceGrpc {
               "org.wcx.dfs.namenode.rpc.NameNodeService", "fetchEditsLog"),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest,
+      org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> METHOD_UPDATE_CHECKPOINT_TXID =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.wcx.dfs.namenode.rpc.NameNodeService", "updateCheckpointTxid"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse.getDefaultInstance()));
 
   public static NameNodeServiceStub newStub(io.grpc.Channel channel) {
     return new NameNodeServiceStub(channel);
@@ -97,6 +106,9 @@ public class NameNodeServiceGrpc {
 
     public void fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request,
         io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> responseObserver);
+
+    public void updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> responseObserver);
   }
 
   public static interface NameNodeServiceBlockingClient {
@@ -110,6 +122,8 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.ShutdownResponse shutdown(org.wcx.dfs.namenode.rpc.model.ShutdownRequest request);
 
     public org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request);
+
+    public org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request);
   }
 
   public static interface NameNodeServiceFutureClient {
@@ -128,6 +142,9 @@ public class NameNodeServiceGrpc {
 
     public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse> fetchEditsLog(
         org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> updateCheckpointTxid(
+        org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request);
   }
 
   public static class NameNodeServiceStub extends io.grpc.stub.AbstractStub<NameNodeServiceStub>
@@ -181,6 +198,13 @@ public class NameNodeServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_FETCH_EDITS_LOG, getCallOptions()), request, responseObserver);
     }
+
+    @Override
+    public void updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_UPDATE_CHECKPOINT_TXID, getCallOptions()), request, responseObserver);
+    }
   }
 
   public static class NameNodeServiceBlockingStub extends io.grpc.stub.AbstractStub<NameNodeServiceBlockingStub>
@@ -228,6 +252,12 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse fetchEditsLog(org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_FETCH_EDITS_LOG, getCallOptions(), request);
+    }
+
+    @Override
+    public org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse updateCheckpointTxid(org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_UPDATE_CHECKPOINT_TXID, getCallOptions(), request);
     }
   }
 
@@ -282,6 +312,13 @@ public class NameNodeServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_FETCH_EDITS_LOG, getCallOptions()), request);
     }
+
+    @Override
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse> updateCheckpointTxid(
+        org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_UPDATE_CHECKPOINT_TXID, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REGISTER = 0;
@@ -289,6 +326,7 @@ public class NameNodeServiceGrpc {
   private static final int METHODID_MKDIR = 2;
   private static final int METHODID_SHUTDOWN = 3;
   private static final int METHODID_FETCH_EDITS_LOG = 4;
+  private static final int METHODID_UPDATE_CHECKPOINT_TXID = 5;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -325,6 +363,10 @@ public class NameNodeServiceGrpc {
         case METHODID_FETCH_EDITS_LOG:
           serviceImpl.fetchEditsLog((org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest) request,
               (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_CHECKPOINT_TXID:
+          serviceImpl.updateCheckpointTxid((org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest) request,
+              (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -379,6 +421,13 @@ public class NameNodeServiceGrpc {
               org.wcx.dfs.namenode.rpc.model.FetchEditsLogRequest,
               org.wcx.dfs.namenode.rpc.model.FetchEditsLogResponse>(
                 serviceImpl, METHODID_FETCH_EDITS_LOG)))
+        .addMethod(
+          METHOD_UPDATE_CHECKPOINT_TXID,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidRequest,
+              org.wcx.dfs.namenode.rpc.model.UpdateCheckpointTxidResponse>(
+                serviceImpl, METHODID_UPDATE_CHECKPOINT_TXID)))
         .build();
   }
 }

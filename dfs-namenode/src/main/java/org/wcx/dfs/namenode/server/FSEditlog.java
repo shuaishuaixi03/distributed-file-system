@@ -1,6 +1,7 @@
 package org.wcx.dfs.namenode.server;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,6 +11,17 @@ import java.util.List;
  * @date 2023/5/4 17:26
  */
 public class FSEditlog {
+
+    /**
+     * editlog日志文件清理的时间间隔
+     */
+    private static final Long EDIT_LOG_CLEAN_INTERVAL = 30 * 1000L;
+
+    /**
+     * 元数据管理组件
+     */
+    private FSNamesystem namesystem;
+
     //当前递增到的日志序列号
     private long txidSeq = 0L;
     //内存双缓存区
@@ -22,6 +34,14 @@ public class FSEditlog {
     private volatile Boolean shouldSchedulingSync = false;
     //
     private ThreadLocal<Long> localTxid = new ThreadLocal<>();
+
+
+    public FSEditlog(FSNamesystem namesystem) {
+        this.namesystem = namesystem;
+
+        EditLogCleaner editLogCleaner = new EditLogCleaner();
+        editLogCleaner.start();
+    }
 
     public void logEdit(String content) {
         synchronized(this) {
@@ -121,6 +141,43 @@ public class FSEditlog {
     public String[] getBufferedEditsLog() {
         synchronized(this) {
             return doubleBuffer.getBufferedEditsLog();
+        }
+    }
+
+    class EditLogCleaner extends Thread {
+        @Override
+        public void run() {
+            System.out.println("editlog日志文件后台清理线程启动......");
+
+            while (true) {
+                try {
+                    Thread.sleep(EDIT_LOG_CLEAN_INTERVAL);
+
+                    List<String> flushedTxids = getFlushedTxids();
+                    if (flushedTxids != null && flushedTxids.size() > 0) {
+                        long checkpointTxid = namesystem.getCheckpointTxid();
+
+                        for (String flushedTxid : flushedTxids) {
+                            long startTxid = Long.valueOf(flushedTxid.split("_")[0]);
+                            long endTxid = Long.valueOf(flushedTxid.split("_")[1]);
+
+                            if (checkpointTxid >= endTxid) {
+                                File file = new File("D:\\dfs\\editslog\\edits-"
+                                        + startTxid + "-" + endTxid + ".log");
+
+                                if (file.exists()) {
+                                    file.delete();
+                                    System.out.println("发现editlog日志文件不是必要，进行删除操作。文件路径为: " + file.getPath());
+                                }
+                            }
+
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 

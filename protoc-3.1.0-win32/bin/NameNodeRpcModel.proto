@@ -33,8 +33,14 @@ message ShutdownResponse{
 	int32 status = 1;
 }
 message FetchEditsLogRequest {
-	int32 code = 1;
+	int64 syncedTxid = 1;
 }
 message FetchEditsLogResponse {
 	string editsLog = 1;
+}
+message UpdateCheckpointTxidRequest {
+	int64 txid = 1;
+}
+message UpdateCheckpointTxidResponse {
+	int32 status = 1;
 }
