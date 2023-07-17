@@ -21,16 +21,23 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
     public static final Integer STATUS_SUCCESS = 1;
     public static final Integer STATUS_FAILURE = 2;
     public static final Integer STATUS_SHUTDOWN = 3;
+    public static final Integer STATUS_DUPLICATE = 4;
 
     public static final Integer BACKUP_NODE_FETCH_SIZE = 10;
 
-    //管理元数据的组件
+    /**
+     * 复制管理元数据的核心组件
+     */
     private FSNamesystem namesystem;
 
-    //管理datanode集群的组件
+    /**
+     * 管理集群中所有datanode的组件
+     */
     private DataNodeManager datanodeManager;
 
-    //是否正在运行
+    /**
+     * Namenode是否还在运行
+     */
     private volatile Boolean shouldRunning = true;
 
     /**
@@ -57,7 +64,11 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
     }
 
 
-
+    /**
+     * datanode进行注册
+     * @param request
+     * @param responseObserver
+     */
     @Override
     public void register(RegisterRequest request, StreamObserver<RegisterResponse> responseObserver) {
         datanodeManager.register(request.getIp(), request.getHostname());
@@ -69,6 +80,11 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
         responseObserver.onCompleted();
     }
 
+    /**
+     * datanode进行心跳
+     * @param request
+     * @param responseObserver
+     */
     @Override
     public void heartbeat(HeartbeatRequest request, StreamObserver<HeartbeatResponse> responseObserver) {
         datanodeManager.heartbeat(request.getIp(), request.getHostname());
@@ -80,6 +96,11 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
         responseObserver.onCompleted();
     }
 
+    /**
+     * 创建目录
+     * @param request
+     * @param responseObserver
+     */
     @Override
     public void mkdir(MkdirRequest request, StreamObserver<MkdirResponse> responseObserver) {
         try {
@@ -104,6 +125,11 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
     }
 
 
+    /**
+     * 优雅关闭
+     * @param request
+     * @param responseObserver
+     */
     @Override
     public void shutdown(ShutdownRequest request, StreamObserver<ShutdownResponse> responseObserver) {
         this.shouldRunning = false;
@@ -112,6 +138,11 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
         System.out.println("优雅关闭namenode......");
     }
 
+    /**
+     * 拉取editslog
+     * @param request
+     * @param responseObserver
+     */
     @Override
     public void fetchEditsLog(FetchEditsLogRequest request, StreamObserver<FetchEditsLogResponse> responseObserver) {
         if(!shouldRunning) {
@@ -331,7 +362,46 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
      */
     @Override
     public void create(CreateFileRequest request, StreamObserver<CreateFileResponse> responseObserver) {
-        String filename = request.getFilename();
+        try {
+            CreateFileResponse response = null;
+
+            if (!shouldRunning) {
+                response = CreateFileResponse.newBuilder()
+                        .setStatus(STATUS_SHUTDOWN)
+                        .build();
+            } else {
+                String filename = request.getFilename();
+                Boolean success = namesystem.create(filename);
+
+                if (success) {
+                    response = CreateFileResponse.newBuilder()
+                            .setStatus(STATUS_SUCCESS)
+                            .build();
+                }
+            }
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 为上传文件分配两个Datanode节点
+     * @param request
+     * @param responseObserver
+     */
+    @Override
+    public void allocateDataNodes(AllocateDataNodesRequest request, StreamObserver<AllocateDataNodesResponse> responseObserver) {
+        long fileSize = request.getFileSize();
+        List<DataNodeInfo> datanodes = datanodeManager.allocateDataNodes(fileSize);
+        String datanodesJson = JSONArray.toJSONString(datanodes);
+
+        AllocateDataNodesResponse response = AllocateDataNodesResponse.newBuilder()
+                .setDatanodes(datanodesJson)
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
 

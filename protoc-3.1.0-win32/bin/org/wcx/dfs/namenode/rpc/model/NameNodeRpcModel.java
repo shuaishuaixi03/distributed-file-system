@@ -84,6 +84,16 @@ public final class NameNodeRpcModel {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -108,8 +118,11 @@ public final class NameNodeRpcModel {
       "\030\001 \001(\003\".\n\034UpdateCheckpointTxidResponse\022\016" +
       "\n\006status\030\001 \001(\005\"%\n\021CreateFileRequest\022\020\n\010f" +
       "ilename\030\001 \001(\t\"$\n\022CreateFileResponse\022\016\n\006s" +
-      "tatus\030\001 \001(\005B4\n\036org.wcx.dfs.namenode.rpc." +
-      "modelB\020NameNodeRpcModelP\001b\006proto3"
+      "tatus\030\001 \001(\005\">\n\030AllocateDataNodesRequest\022" +
+      "\020\n\010filename\030\001 \001(\t\022\020\n\010fileSize\030\002 \001(\003\".\n\031A" +
+      "llocateDataNodesResponse\022\021\n\tdatanodes\030\001 " +
+      "\001(\tB4\n\036org.wcx.dfs.namenode.rpc.modelB\020N" +
+      "ameNodeRpcModelP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -207,6 +220,18 @@ public final class NameNodeRpcModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_wcx_dfs_namenode_rpc_CreateFileResponse_descriptor,
         new java.lang.String[] { "Status", });
+    internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesRequest_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesRequest_descriptor,
+        new java.lang.String[] { "Filename", "FileSize", });
+    internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesResponse_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_wcx_dfs_namenode_rpc_AllocateDataNodesResponse_descriptor,
+        new java.lang.String[] { "Datanodes", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

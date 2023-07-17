@@ -3,9 +3,7 @@ package org.wcx.dfs.client;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
-import org.wcx.dfs.namenode.rpc.model.MkdirRequest;
-import org.wcx.dfs.namenode.rpc.model.MkdirResponse;
-import org.wcx.dfs.namenode.rpc.model.ShutdownRequest;
+import org.wcx.dfs.namenode.rpc.model.*;
 import org.wcx.dfs.namenode.rpc.service.NameNodeServiceGrpc;
 
 /**
@@ -61,7 +59,23 @@ public class FileSystemImpl implements FileSystem{
      * @param filename 文件名
      * @throws Exception
      */
-    public void upload(byte[] file, String filename) throws Exception {
+    public Boolean upload(byte[] file, String filename) throws Exception {
+        if (!createFile(filename)) {
+            return false;
+        }
 
+        return true;
+    }
+
+    private Boolean createFile(String filename) {
+        CreateFileRequest request = CreateFileRequest.newBuilder()
+                .setFilename(filename)
+                .build();
+        CreateFileResponse response = namenode.create(request);
+
+        if (response.getStatus() == 1) {
+            return true;
+        }
+        return false;
     }
 }

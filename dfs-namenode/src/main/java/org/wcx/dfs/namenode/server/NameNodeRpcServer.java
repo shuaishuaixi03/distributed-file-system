@@ -48,7 +48,7 @@ public class NameNodeRpcServer {
         }
     }
 
-    public void blockUnitShutdown() throws InterruptedException {
+    public void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
             server.awaitTermination();
         }

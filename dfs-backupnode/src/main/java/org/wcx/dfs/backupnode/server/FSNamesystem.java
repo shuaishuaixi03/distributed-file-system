@@ -42,6 +42,20 @@ public class FSNamesystem {
     }
 
     /**
+     * 创建文件
+     * @param txid
+     * @param filename 文件名，包含所在路径
+     * @return
+     * @throws Exception
+     */
+    public Boolean create(long txid, String filename) throws Exception {
+        if (!directory.create(txid, filename)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 以json数据格式获取文件目录树
      *
      * @return

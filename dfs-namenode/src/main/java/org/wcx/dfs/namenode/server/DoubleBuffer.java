@@ -152,11 +152,17 @@ public class DoubleBuffer {
             startTxid = endTxid + 1;
         }
 
-        //清空缓冲区中的数据
+        /**
+         * 情况当前缓冲区里的数据
+         */
         public void clear() {
             buffer.reset();
         }
 
+        /**
+         * 获取当前缓冲区里的数据
+         * @return
+         */
         public byte[] getBufferData() {
             return buffer.toByteArray();
         }

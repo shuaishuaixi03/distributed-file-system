@@ -18,11 +18,14 @@ public interface FileSystem {
      */
     void shutdown() throws Exception;
 
+
     /**
      * 上传文件
      * @param file 文件的字节数组
-     * @param filename 文件名
+     * @param filename 文件名，包含所在路径
+     * @return
+     * @throws Exception
      */
-    void upload(byte[] file, String filename) throws Exception;
+    Boolean upload(byte[] file, String filename) throws Exception;
 
 }

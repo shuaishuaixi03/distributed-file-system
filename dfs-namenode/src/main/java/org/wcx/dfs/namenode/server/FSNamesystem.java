@@ -51,7 +51,7 @@ public class FSNamesystem {
      */
     public Boolean mkdir(String path) throws Exception{
         this.directory.mkdir(path);
-        this.editlog.logEdit("{'OP':'MKDIR','PATH':'" + path + "'}");
+        this.editlog.logEdit(EditLogFactory.mkdir(path));
         return true;
     }
 
@@ -65,7 +65,7 @@ public class FSNamesystem {
         if (!directory.create(filename)) {
             return false;
         }
-        //TODO 这里写一条editlog
+        editlog.logEdit(EditLogFactory.create(filename));
         return true;
     }
 
@@ -251,6 +251,13 @@ public class FSNamesystem {
                             String op = editLog.getString("OP");
 
                             if (op.equals("MKDIR")) {
+                                String path = editLog.getString("PATH");
+                                try {
+                                    directory.mkdir(path);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (op.equals("CREATE")) {
                                 String path = editLog.getString("PATH");
                                 try {
                                     directory.mkdir(path);

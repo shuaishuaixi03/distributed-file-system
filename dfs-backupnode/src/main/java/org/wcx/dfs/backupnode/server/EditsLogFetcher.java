@@ -63,6 +63,13 @@ public class EditsLogFetcher extends Thread {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    } else if (op.equals("CREATE")) {
+                        String path = editsLog.getString("PATH");
+                        try {
+                            namesystem.create(editsLog.getLongValue("txid"), path);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
