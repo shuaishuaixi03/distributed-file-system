@@ -33,10 +33,6 @@ public class NameNodeOfferService {
         this.serviceActor.startHearbeat();
     }
 
-    /**
-     *
-     * @param serviceActor
-     */
     public void shutdown(NameNodeServiceActor serviceActor) {
         this.serviceActors.remove(serviceActor);
     }

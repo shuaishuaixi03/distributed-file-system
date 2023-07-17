@@ -11,6 +11,7 @@ import org.wcx.dfs.namenode.rpc.service.NameNodeServiceGrpc;
 
 
 /**
+ *
  * @author wcx
  * @date 2023/5/4 16:20
  */
@@ -22,6 +23,7 @@ public class NameNodeServiceActor {
     private NameNodeServiceGrpc.NameNodeServiceBlockingStub namenode;
 
 
+
     public NameNodeServiceActor() {
         ManagedChannel channel = NettyChannelBuilder
                 .forAddress(NAMENODE_HOSTNAME, NAMENODE_PORT)
@@ -30,12 +32,19 @@ public class NameNodeServiceActor {
         this.namenode = NameNodeServiceGrpc.newBlockingStub(channel);
     }
 
+    /**
+     * 向对应的Namenode发送注册信息
+     * @throws Exception
+     */
     public void register() throws Exception {
         Thread registerThread = new RegisterThread();
         registerThread.start();
         registerThread.join();
     }
 
+    /**
+     * 开启向对应的Namenode发送心跳信息的线程
+     */
     public void startHearbeat() {
         new HeartbeatThread().start();
     }
