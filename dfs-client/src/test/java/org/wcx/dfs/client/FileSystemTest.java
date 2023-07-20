@@ -29,6 +29,6 @@ public class FileSystemTest {
         fileSystem.shutdown();
     }
     private static void testCreateFile() throws Exception {
-        fileSystem.upload(null, "/image/product/iphone001.jpg");
+        fileSystem.upload(null, "/image/product/iphone001.jpg", 0L);
     }
 }

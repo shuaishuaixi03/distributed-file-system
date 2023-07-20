@@ -15,6 +15,11 @@ public class DataNodeInfo implements Comparable<DataNodeInfo> {
     private String hostname;
 
     /**
+     * NIO端口号
+     */
+    private int nioPort;
+
+    /**
      * 上一次心跳时间
      */
     private long latestHeartbeatTime;
@@ -24,9 +29,10 @@ public class DataNodeInfo implements Comparable<DataNodeInfo> {
      */
     private long storedDataSize;
 
-    public DataNodeInfo(String ip, String hostname) {
+    public DataNodeInfo(String ip, String hostname, int nioPort) {
         this.ip = ip;
         this.hostname = hostname;
+        this.nioPort = nioPort;
         this.latestHeartbeatTime = System.currentTimeMillis();
         this.storedDataSize = 0L;
     }
@@ -45,6 +51,14 @@ public class DataNodeInfo implements Comparable<DataNodeInfo> {
 
     public void setHostname(String hostname) {
         this.hostname = hostname;
+    }
+
+    public int getNioPort() {
+        return nioPort;
+    }
+
+    public void setNioPort(int nioPort) {
+        this.nioPort = nioPort;
     }
 
     public long getLatestHeartbeatTime() {
@@ -66,6 +80,7 @@ public class DataNodeInfo implements Comparable<DataNodeInfo> {
     public void addStoredDataSize(long storedDataSize) {
         this.storedDataSize += storedDataSize;
     }
+
 
     @Override
     public String toString() {

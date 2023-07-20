@@ -26,10 +26,10 @@ public class DataNodeManager {
      * @param hostname
      * @return
      */
-    public Boolean register(String ip, String hostname) {
-        DataNodeInfo datanode = new DataNodeInfo(ip, hostname);
+    public Boolean register(String ip, String hostname, int nioPort) {
+        DataNodeInfo datanode = new DataNodeInfo(ip, hostname, nioPort);
         datanodes.put(ip + "-" + hostname, datanode);
-        System.out.println("DataNode注册: ip=" + ip + ",hostname=" + hostname);
+        System.out.println("DataNode注册: ip=" + ip + ",hostname=" + hostname + ",nioPort=" + nioPort);
         return true;
     }
 

@@ -26,6 +26,6 @@ public interface FileSystem {
      * @return
      * @throws Exception
      */
-    Boolean upload(byte[] file, String filename) throws Exception;
+    Boolean upload(byte[] file, String filename, long fileSize) throws Exception;
 
 }

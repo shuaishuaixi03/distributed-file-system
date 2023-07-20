@@ -1,5 +1,7 @@
 package org.wcx.dfs.client;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
@@ -57,16 +59,32 @@ public class FileSystemImpl implements FileSystem{
      * 上传文件
      * @param file 文件的字节数组
      * @param filename 文件名
+     * @param fileSize 文件大小
      * @throws Exception
      */
-    public Boolean upload(byte[] file, String filename) throws Exception {
+    public Boolean upload(byte[] file, String filename, long fileSize) throws Exception {
         if (!createFile(filename)) {
             return false;
         }
+        String datanodesJson = allocateDataNodes(filename, fileSize);
+        System.out.println(datanodesJson);
 
+        JSONArray datanodes = JSONArray.parseArray(datanodesJson);
+        for (int i = 0; i < datanodes.size(); i ++) {
+            JSONObject datanode = datanodes.getJSONObject(i);
+            String hostname = datanode.getString("hostname");
+            int nioPort = datanode.getIntValue("nioPort");
+            NIOClient.sendFile(hostname, nioPort, file, fileSize);
+        }
         return true;
     }
 
+
+    /**
+     * 发送请求到namenode节点创建文件
+     * @param filename
+     * @return
+     */
     private Boolean createFile(String filename) {
         CreateFileRequest request = CreateFileRequest.newBuilder()
                 .setFilename(filename)
@@ -77,5 +95,20 @@ public class FileSystemImpl implements FileSystem{
             return true;
         }
         return false;
+    }
+
+    /**
+     * 分配双副本对应的数据节点
+     * @param filename
+     * @param fileSize
+     * @return
+     */
+    private String allocateDataNodes(String filename, long fileSize) {
+        AllocateDataNodesRequest request = AllocateDataNodesRequest.newBuilder()
+                .setFilename(filename)
+                .setFileSize(fileSize)
+                .build();
+        AllocateDataNodesResponse response = namenode.allocateDataNodes(request);
+        return response.getDatanodes();
     }
 }

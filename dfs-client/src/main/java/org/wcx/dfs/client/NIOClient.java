@@ -2,7 +2,6 @@ package org.wcx.dfs.client;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -10,17 +9,28 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 /**
+ * 负责和数据节点Datanode进行网络通信
  * @author wangchengxi
  * @date 2023/7/20 9:47
  */
 public class NIOClient {
-    public static void sendFile(byte[] file, long fileSize) {
+
+    /**
+     * 发送一个文件
+     * @param hostname
+     * @param nioPort
+     * @param file
+     * @param fileSize
+     */
+    public static void sendFile(String hostname, int nioPort,
+            byte[] file, long fileSize) {
+        //建立一次短连接，发送完数据后断开
         SocketChannel channel = null;
         Selector selector = null;
         try {
             channel = SocketChannel.open();
             channel.configureBlocking(false);
-            channel.connect(new InetSocketAddress("localhost", 9000));
+            channel.connect(new InetSocketAddress(hostname, nioPort));
             selector = Selector.open();
             channel.register(selector, SelectionKey.OP_CONNECT);
 
@@ -34,18 +44,22 @@ public class NIOClient {
                     SelectionKey key = keysIterator.next();
                     keysIterator.remove();
 
+                    //NIOServer允许建立连接
                     if (key.isConnectable()) {
                         channel = (SocketChannel) key.channel();
                         if (channel.isConnectionPending()) {
-                            channel.finishConnect();
+                            channel.finishConnect(); //完成三次握手，建立了TCP连接
 
+                            //封装文件数据
                             long imageLength = fileSize;
                             ByteBuffer buffer = ByteBuffer.allocate((int) imageLength * 2);
-                            buffer.putLong(imageLength);
+                            buffer.putLong(imageLength); //long对应8个字节
                             buffer.put(file);
 
                             channel.register(selector, SelectionKey.OP_READ);
-                        } else if (key.isReadable()) {
+                        }
+                        //接收到NIOServer的响应，可以读取数据
+                        else if (key.isReadable()) {
                             channel = (SocketChannel) key.channel();
 
                             ByteBuffer buffer = ByteBuffer.allocate(1024);
