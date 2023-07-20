@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author wangchengxi
  * @date 2023/7/17 15:33
  */
-public class DataNodeNIOServer {
+public class DataNodeNIOServer extends Thread {
     private Selector selector;
     private List<LinkedBlockingQueue<SelectionKey>> queues =
             new ArrayList<>();
@@ -65,6 +65,50 @@ public class DataNodeNIOServer {
             e.printStackTrace();
         }
     }
+
+    public void run() {
+        while (true) {
+            try {
+                selector.select();
+                Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
+
+                while (keyIterator.hasNext()) {
+                    SelectionKey key = (SelectionKey) keyIterator.next();
+                    keyIterator.remove();
+                    handleRequest(key);
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+    }
+
+    private void handleRequest(SelectionKey key) throws IOException {
+        SocketChannel channel = null;
+        try {
+            if (key.isAcceptable()) {
+                ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+                channel = serverSocketChannel.accept();
+                if (channel != null) {
+                    channel.configureBlocking(false);
+                    channel.register(selector, SelectionKey.OP_READ);
+                }
+            } else if (key.isReadable()) {
+                channel = (SocketChannel) key.channel();
+                String remoteAddr = channel.getRemoteAddress().toString();
+                Integer queueIndex = remoteAddr.hashCode() % queues.size();
+                queues.get(queueIndex).put(key);
+
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+            if (channel != null) {
+                channel.close();
+            }
+        }
+
+    }
+
 
     class Worker extends Thread {
         private LinkedBlockingQueue<SelectionKey> queue;
