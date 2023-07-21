@@ -13,6 +13,9 @@ public class DataNode {
         this.shouldRun = true;
         this.offerService = new NameNodeOfferService();
         this.offerService.start();
+
+        DataNodeNIOServer nioServer = new DataNodeNIOServer();
+        nioServer.start();
     }
 
     private void run() {

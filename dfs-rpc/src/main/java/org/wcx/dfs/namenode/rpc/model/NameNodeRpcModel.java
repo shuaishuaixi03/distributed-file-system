@@ -106,24 +106,24 @@ public final class NameNodeRpcModel {
       "\n\026NameNodeRpcModel.proto\022\030org.wcx.dfs.na" +
       "menode.rpc\"@\n\017RegisterRequest\022\n\n\002ip\030\001 \001(" +
       "\t\022\020\n\010hostname\030\002 \001(\t\022\017\n\007nioPort\030\003 \001(\005\"\"\n\020" +
-      "RegisterResponse\022\016\n\006status\030\001 \001(\005\"0\n\020Hear" +
+      "RegisterResponse\022\016\n\006status\030\001 \001(\005\"A\n\020Hear" +
       "tbeatRequest\022\n\n\002ip\030\001 \001(\t\022\020\n\010hostname\030\002 \001" +
-      "(\t\"#\n\021HeartbeatResponse\022\016\n\006status\030\001 \001(\005\"" +
-      "\034\n\014MkdirRequest\022\014\n\004path\030\001 \001(\t\"\037\n\rMkdirRe" +
-      "sponse\022\016\n\006status\030\001 \001(\005\"\037\n\017ShutdownReques" +
-      "t\022\014\n\004code\030\001 \001(\005\"\"\n\020ShutdownResponse\022\016\n\006s" +
-      "tatus\030\001 \001(\005\"*\n\024FetchEditsLogRequest\022\022\n\ns",
-      "yncedTxid\030\001 \001(\003\")\n\025FetchEditsLogResponse" +
-      "\022\020\n\010editsLog\030\001 \001(\t\"+\n\033UpdateCheckpointTx" +
-      "idRequest\022\014\n\004txid\030\001 \001(\003\".\n\034UpdateCheckpo" +
-      "intTxidResponse\022\016\n\006status\030\001 \001(\005\"%\n\021Creat" +
-      "eFileRequest\022\020\n\010filename\030\001 \001(\t\"$\n\022Create" +
-      "FileResponse\022\016\n\006status\030\001 \001(\005\">\n\030Allocate" +
-      "DataNodesRequest\022\020\n\010filename\030\001 \001(\t\022\020\n\010fi" +
-      "leSize\030\002 \001(\003\".\n\031AllocateDataNodesRespons" +
-      "e\022\021\n\tdatanodes\030\001 \001(\tB4\n\036org.wcx.dfs.name" +
-      "node.rpc.modelB\020NameNodeRpcModelP\001b\006prot",
-      "o3"
+      "(\t\022\017\n\007nioPort\030\003 \001(\005\"#\n\021HeartbeatResponse" +
+      "\022\016\n\006status\030\001 \001(\005\"\034\n\014MkdirRequest\022\014\n\004path" +
+      "\030\001 \001(\t\"\037\n\rMkdirResponse\022\016\n\006status\030\001 \001(\005\"" +
+      "\037\n\017ShutdownRequest\022\014\n\004code\030\001 \001(\005\"\"\n\020Shut" +
+      "downResponse\022\016\n\006status\030\001 \001(\005\"*\n\024FetchEdi",
+      "tsLogRequest\022\022\n\nsyncedTxid\030\001 \001(\003\")\n\025Fetc" +
+      "hEditsLogResponse\022\020\n\010editsLog\030\001 \001(\t\"+\n\033U" +
+      "pdateCheckpointTxidRequest\022\014\n\004txid\030\001 \001(\003" +
+      "\".\n\034UpdateCheckpointTxidResponse\022\016\n\006stat" +
+      "us\030\001 \001(\005\"%\n\021CreateFileRequest\022\020\n\010filenam" +
+      "e\030\001 \001(\t\"$\n\022CreateFileResponse\022\016\n\006status\030" +
+      "\001 \001(\005\">\n\030AllocateDataNodesRequest\022\020\n\010fil" +
+      "ename\030\001 \001(\t\022\020\n\010fileSize\030\002 \001(\003\".\n\031Allocat" +
+      "eDataNodesResponse\022\021\n\tdatanodes\030\001 \001(\tB4\n" +
+      "\036org.wcx.dfs.namenode.rpc.modelB\020NameNod",
+      "eRpcModelP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -154,7 +154,7 @@ public final class NameNodeRpcModel {
     internal_static_org_wcx_dfs_namenode_rpc_HeartbeatRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_wcx_dfs_namenode_rpc_HeartbeatRequest_descriptor,
-        new String[] { "Ip", "Hostname", });
+        new String[] { "Ip", "Hostname", "NioPort", });
     internal_static_org_wcx_dfs_namenode_rpc_HeartbeatResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_org_wcx_dfs_namenode_rpc_HeartbeatResponse_fieldAccessorTable = new

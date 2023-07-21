@@ -4,10 +4,10 @@ import io.grpc.ManagedChannel;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
 import org.wcx.dfs.namenode.rpc.model.HeartbeatRequest;
-import org.wcx.dfs.namenode.rpc.model.HeartbeatResponse;
 import org.wcx.dfs.namenode.rpc.model.RegisterRequest;
-import org.wcx.dfs.namenode.rpc.model.RegisterResponse;
 import org.wcx.dfs.namenode.rpc.service.NameNodeServiceGrpc;
+
+import static org.wcx.dfs.datanode.server.DataNodeConfig.*;
 
 
 /**
@@ -16,9 +16,6 @@ import org.wcx.dfs.namenode.rpc.service.NameNodeServiceGrpc;
  * @date 2023/5/4 16:20
  */
 public class NameNodeServiceActor {
-
-    private static final String NAMENODE_HOSTNAME = "localhost";
-    private static final Integer NAMENODE_PORT = 50070;
 
     private NameNodeServiceGrpc.NameNodeServiceBlockingStub namenode;
 
@@ -56,15 +53,15 @@ public class NameNodeServiceActor {
             try {
                 //TODO 发送rpc请求到NameNode进行注册，携带自己的ip和hostname
                 System.out.println("发送rpc请求到namenode进行注册");
-                String ip = "127.0.0.1";
-                String hostname = "dfs-data-01";
 
                 RegisterRequest request = RegisterRequest.newBuilder()
-                        .setIp(ip)
-                        .setHostname(hostname)
+                        .setIp(DATANODE_IP)
+                        .setHostname(DATANODE_HOSTNAME)
+                        .setNioPort(NIO_PORT)
                         .build();
-                RegisterResponse response = namenode.register(request);
-                System.out.println("接收到NameNode返回的注册响应: " + response.getStatus());
+                namenode.register(request);
+//                RegisterResponse response = namenode.register(request);
+//                System.out.println("接收到NameNode返回的注册响应: " + response.getStatus());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,15 +75,14 @@ public class NameNodeServiceActor {
                 while(true) {
                     System.out.println("发送rpc请求到namenode节点上进行心跳");
 
-                    String ip = "127.0.0.1";
-                    String hostname = "dfs-data-01";
-
                     HeartbeatRequest request = HeartbeatRequest.newBuilder()
-                            .setIp(ip)
-                            .setHostname(hostname)
+                            .setIp(DATANODE_IP)
+                            .setHostname(DATANODE_HOSTNAME)
+                            .setNioPort(NIO_PORT)
                             .build();
-                    HeartbeatResponse response = namenode.heartbeat(request);
-                    System.out.println("接收到NameNode返回的心跳响应: " + response.getStatus());
+                    namenode.heartbeat(request);
+//                    HeartbeatResponse response = namenode.heartbeat(request);
+//                    System.out.println("接收到NameNode返回的心跳响应: " + response.getStatus());
                     //30s后再向namenode节点发送心跳信息
                     Thread.sleep(30 * 1000);
                 }

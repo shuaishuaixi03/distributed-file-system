@@ -67,14 +67,14 @@ public class FileSystemImpl implements FileSystem{
             return false;
         }
         String datanodesJson = allocateDataNodes(filename, fileSize);
-        System.out.println(datanodesJson);
+        System.out.println("上传的数据节点信息: " + datanodesJson);
 
         JSONArray datanodes = JSONArray.parseArray(datanodesJson);
         for (int i = 0; i < datanodes.size(); i ++) {
             JSONObject datanode = datanodes.getJSONObject(i);
             String hostname = datanode.getString("hostname");
             int nioPort = datanode.getIntValue("nioPort");
-            NIOClient.sendFile(hostname, nioPort, file, fileSize);
+            NIOClient.sendFile(hostname, nioPort, file, filename, fileSize);
         }
         return true;
     }

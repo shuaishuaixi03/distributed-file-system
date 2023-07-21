@@ -17,6 +17,7 @@ message RegisterResponse{
 message HeartbeatRequest{
 	string ip = 1;
 	string hostname = 2;
+	int32 nioPort= 3;
 }
 message HeartbeatResponse{
 	int32 status = 1;

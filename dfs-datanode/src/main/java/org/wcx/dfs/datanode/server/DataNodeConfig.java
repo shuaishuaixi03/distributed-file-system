@@ -8,8 +8,9 @@ public class DataNodeConfig {
 
     public static final String NAMENODE_HOSTNAME = "localhost";
     public static final Integer NAMENODE_PORT = 50070;
-    public static final String DATANODE_HOSTNAME = "dfs-data-01";
-    public static final String DATANODE_IP = "";
-    public static final Integer NIO_PORT = 9000;
+    public static final String DATANODE_HOSTNAME = "localhost";
+    public static final String DATANODE_IP = "10.89.10.140";
+    public static final Integer NIO_PORT = 9301;
+    public static final String DATA_DIR = "D:\\dfs\\tmp";
 
 }
