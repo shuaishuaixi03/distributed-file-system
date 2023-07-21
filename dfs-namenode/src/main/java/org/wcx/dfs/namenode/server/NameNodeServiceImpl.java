@@ -9,7 +9,9 @@ import org.wcx.dfs.namenode.rpc.service.NameNodeServiceGrpc;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * NameNode的rpc服务接口的实现类
@@ -54,6 +56,9 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
      * 当前内存里缓冲了哪个磁盘文件的数据
      */
     private String bufferedFlushedTxid;
+
+
+
 
     public NameNodeServiceImpl(
             FSNamesystem namesystem,
@@ -400,6 +405,33 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
         AllocateDataNodesResponse response = AllocateDataNodesResponse.newBuilder()
                 .setDatanodes(datanodesJson)
                 .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void informReplicaReceived(InformReplicaReceivedRequest request, StreamObserver<InformReplicaReceivedResponse> responseObserver) {
+        String hostname = request.getHostname();
+        String ip = request.getIp();
+        String filename = request.getFilename();
+
+        InformReplicaReceivedResponse response = null;
+
+        try {
+            namesystem.addReceivedReplica(hostname, ip, filename);
+            response = InformReplicaReceivedResponse.newBuilder()
+                    .setStatus(STATUS_FAILURE)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            response = InformReplicaReceivedResponse.newBuilder()
+                    .setStatus(STATUS_FAILURE)
+                    .build();
+        }
+
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

@@ -7,12 +7,12 @@ package org.wcx.dfs.datanode.server;
 public class DataNode {
     //表示datanode节点是否正在运行
     private volatile Boolean shouldRun;
-    private NameNodeOfferService offerService;
+    private NameNodeRpcClient nodeRpcClient;
 
-    private void initialize() {
+    private void initialize() throws Exception {
         this.shouldRun = true;
-        this.offerService = new NameNodeOfferService();
-        this.offerService.start();
+        this.nodeRpcClient = new NameNodeRpcClient();
+        this.nodeRpcClient.start();
 
         DataNodeNIOServer nioServer = new DataNodeNIOServer();
         nioServer.start();
@@ -28,7 +28,7 @@ public class DataNode {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         DataNode datanode = new DataNode();
         datanode.initialize();
         datanode.run();

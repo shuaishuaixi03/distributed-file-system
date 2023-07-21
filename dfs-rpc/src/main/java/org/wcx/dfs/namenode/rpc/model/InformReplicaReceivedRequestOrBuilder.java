@@ -3,14 +3,14 @@
 
 package org.wcx.dfs.namenode.rpc.model;
 
-public interface HeartbeatRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:org.wcx.dfs.namenode.rpc.HeartbeatRequest)
+public interface InformReplicaReceivedRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:org.wcx.dfs.namenode.rpc.InformReplicaReceivedRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
    * <code>optional string ip = 1;</code>
    */
-  java.lang.String getIp();
+  String getIp();
   /**
    * <code>optional string ip = 1;</code>
    */
@@ -20,7 +20,7 @@ public interface HeartbeatRequestOrBuilder extends
   /**
    * <code>optional string hostname = 2;</code>
    */
-  java.lang.String getHostname();
+  String getHostname();
   /**
    * <code>optional string hostname = 2;</code>
    */
@@ -28,7 +28,12 @@ public interface HeartbeatRequestOrBuilder extends
       getHostnameBytes();
 
   /**
-   * <code>optional int32 nioPort = 3;</code>
+   * <code>optional string filename = 3;</code>
    */
-  int getNioPort();
+  String getFilename();
+  /**
+   * <code>optional string filename = 3;</code>
+   */
+  com.google.protobuf.ByteString
+      getFilenameBytes();
 }

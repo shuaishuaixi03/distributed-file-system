@@ -75,6 +75,15 @@ public class DataNodeManager {
         }
     }
 
+    /**
+     * 获取DataNode信息
+     * @param ip
+     * @param hostname
+     * @return
+     */
+    public DataNodeInfo getDatanode(String ip, String hostname) {
+        return datanodes.get(ip + "-" + hostname);
+    }
 
     class DataNodeAliveMonitor extends Thread {
         @Override

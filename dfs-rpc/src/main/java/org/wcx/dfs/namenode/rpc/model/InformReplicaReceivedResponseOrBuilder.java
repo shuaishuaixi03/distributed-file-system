@@ -3,8 +3,8 @@
 
 package org.wcx.dfs.namenode.rpc.model;
 
-public interface UpdateCheckpointTxidResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:org.wcx.dfs.namenode.rpc.UpdateCheckpointTxidResponse)
+public interface InformReplicaReceivedResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**

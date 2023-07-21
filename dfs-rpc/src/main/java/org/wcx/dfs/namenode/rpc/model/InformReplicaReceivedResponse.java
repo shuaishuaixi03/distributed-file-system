@@ -4,26 +4,26 @@
 package org.wcx.dfs.namenode.rpc.model;
 
 /**
- * Protobuf type {@code org.wcx.dfs.namenode.rpc.ShutdownRequest}
+ * Protobuf type {@code org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse}
  */
-public  final class ShutdownRequest extends
+public  final class InformReplicaReceivedResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:org.wcx.dfs.namenode.rpc.ShutdownRequest)
-    ShutdownRequestOrBuilder {
-  // Use ShutdownRequest.newBuilder() to construct.
-  private ShutdownRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse)
+    InformReplicaReceivedResponseOrBuilder {
+  // Use InformReplicaReceivedResponse.newBuilder() to construct.
+  private InformReplicaReceivedResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private ShutdownRequest() {
-    code_ = 0;
+  private InformReplicaReceivedResponse() {
+    status_ = 0;
   }
 
-  @java.lang.Override
+  @Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private ShutdownRequest(
+  private InformReplicaReceivedResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -45,7 +45,7 @@ public  final class ShutdownRequest extends
           }
           case 8: {
 
-            code_ = input.readInt32();
+            status_ = input.readInt32();
             break;
           }
         }
@@ -61,23 +61,23 @@ public  final class ShutdownRequest extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return org.wcx.dfs.namenode.rpc.model.NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_ShutdownRequest_descriptor;
+    return NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  protected FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return org.wcx.dfs.namenode.rpc.model.NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_ShutdownRequest_fieldAccessorTable
+    return NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            org.wcx.dfs.namenode.rpc.model.ShutdownRequest.class, org.wcx.dfs.namenode.rpc.model.ShutdownRequest.Builder.class);
+            InformReplicaReceivedResponse.class, Builder.class);
   }
 
-  public static final int CODE_FIELD_NUMBER = 1;
-  private int code_;
+  public static final int STATUS_FIELD_NUMBER = 1;
+  private int status_;
   /**
-   * <code>optional int32 code = 1;</code>
+   * <code>optional int32 status = 1;</code>
    */
-  public int getCode() {
-    return code_;
+  public int getStatus() {
+    return status_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -92,8 +92,8 @@ public  final class ShutdownRequest extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (code_ != 0) {
-      output.writeInt32(1, code_);
+    if (status_ != 0) {
+      output.writeInt32(1, status_);
     }
   }
 
@@ -102,97 +102,97 @@ public  final class ShutdownRequest extends
     if (size != -1) return size;
 
     size = 0;
-    if (code_ != 0) {
+    if (status_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, code_);
+        .computeInt32Size(1, status_);
     }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
-  @java.lang.Override
-  public boolean equals(final java.lang.Object obj) {
+  @Override
+  public boolean equals(final Object obj) {
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof org.wcx.dfs.namenode.rpc.model.ShutdownRequest)) {
+    if (!(obj instanceof InformReplicaReceivedResponse)) {
       return super.equals(obj);
     }
-    org.wcx.dfs.namenode.rpc.model.ShutdownRequest other = (org.wcx.dfs.namenode.rpc.model.ShutdownRequest) obj;
+    InformReplicaReceivedResponse other = (InformReplicaReceivedResponse) obj;
 
     boolean result = true;
-    result = result && (getCode()
-        == other.getCode());
+    result = result && (getStatus()
+        == other.getStatus());
     return result;
   }
 
-  @java.lang.Override
+  @Override
   public int hashCode() {
     if (memoizedHashCode != 0) {
       return memoizedHashCode;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    hash = (37 * hash) + CODE_FIELD_NUMBER;
-    hash = (53 * hash) + getCode();
+    hash = (37 * hash) + STATUS_FIELD_NUMBER;
+    hash = (53 * hash) + getStatus();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(
+  public static InformReplicaReceivedResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(
+  public static InformReplicaReceivedResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(byte[] data)
+  public static InformReplicaReceivedResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(
+  public static InformReplicaReceivedResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(java.io.InputStream input)
+  public static InformReplicaReceivedResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(
+  public static InformReplicaReceivedResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseDelimitedFrom(java.io.InputStream input)
+  public static InformReplicaReceivedResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseDelimitedFrom(
+  public static InformReplicaReceivedResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(
+  public static InformReplicaReceivedResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest parseFrom(
+  public static InformReplicaReceivedResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -204,7 +204,7 @@ public  final class ShutdownRequest extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(org.wcx.dfs.namenode.rpc.model.ShutdownRequest prototype) {
+  public static Builder newBuilder(InformReplicaReceivedResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -212,38 +212,38 @@ public  final class ShutdownRequest extends
         ? new Builder() : new Builder().mergeFrom(this);
   }
 
-  @java.lang.Override
+  @Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
-   * Protobuf type {@code org.wcx.dfs.namenode.rpc.ShutdownRequest}
+   * Protobuf type {@code org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:org.wcx.dfs.namenode.rpc.ShutdownRequest)
-      org.wcx.dfs.namenode.rpc.model.ShutdownRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse)
+      InformReplicaReceivedResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.wcx.dfs.namenode.rpc.model.NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_ShutdownRequest_descriptor;
+      return NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.wcx.dfs.namenode.rpc.model.NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_ShutdownRequest_fieldAccessorTable
+      return NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.wcx.dfs.namenode.rpc.model.ShutdownRequest.class, org.wcx.dfs.namenode.rpc.model.ShutdownRequest.Builder.class);
+              InformReplicaReceivedResponse.class, Builder.class);
     }
 
-    // Construct using org.wcx.dfs.namenode.rpc.model.ShutdownRequest.newBuilder()
+    // Construct using org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
@@ -254,31 +254,31 @@ public  final class ShutdownRequest extends
     }
     public Builder clear() {
       super.clear();
-      code_ = 0;
+      status_ = 0;
 
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return org.wcx.dfs.namenode.rpc.model.NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_ShutdownRequest_descriptor;
+      return NameNodeRpcModel.internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_descriptor;
     }
 
-    public org.wcx.dfs.namenode.rpc.model.ShutdownRequest getDefaultInstanceForType() {
-      return org.wcx.dfs.namenode.rpc.model.ShutdownRequest.getDefaultInstance();
+    public InformReplicaReceivedResponse getDefaultInstanceForType() {
+      return InformReplicaReceivedResponse.getDefaultInstance();
     }
 
-    public org.wcx.dfs.namenode.rpc.model.ShutdownRequest build() {
-      org.wcx.dfs.namenode.rpc.model.ShutdownRequest result = buildPartial();
+    public InformReplicaReceivedResponse build() {
+      InformReplicaReceivedResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public org.wcx.dfs.namenode.rpc.model.ShutdownRequest buildPartial() {
-      org.wcx.dfs.namenode.rpc.model.ShutdownRequest result = new org.wcx.dfs.namenode.rpc.model.ShutdownRequest(this);
-      result.code_ = code_;
+    public InformReplicaReceivedResponse buildPartial() {
+      InformReplicaReceivedResponse result = new InformReplicaReceivedResponse(this);
+      result.status_ = status_;
       onBuilt();
       return result;
     }
@@ -310,18 +310,18 @@ public  final class ShutdownRequest extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof org.wcx.dfs.namenode.rpc.model.ShutdownRequest) {
-        return mergeFrom((org.wcx.dfs.namenode.rpc.model.ShutdownRequest)other);
+      if (other instanceof InformReplicaReceivedResponse) {
+        return mergeFrom((InformReplicaReceivedResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(org.wcx.dfs.namenode.rpc.model.ShutdownRequest other) {
-      if (other == org.wcx.dfs.namenode.rpc.model.ShutdownRequest.getDefaultInstance()) return this;
-      if (other.getCode() != 0) {
-        setCode(other.getCode());
+    public Builder mergeFrom(InformReplicaReceivedResponse other) {
+      if (other == InformReplicaReceivedResponse.getDefaultInstance()) return this;
+      if (other.getStatus() != 0) {
+        setStatus(other.getStatus());
       }
       onChanged();
       return this;
@@ -335,11 +335,11 @@ public  final class ShutdownRequest extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      org.wcx.dfs.namenode.rpc.model.ShutdownRequest parsedMessage = null;
+      InformReplicaReceivedResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (org.wcx.dfs.namenode.rpc.model.ShutdownRequest) e.getUnfinishedMessage();
+        parsedMessage = (InformReplicaReceivedResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -349,28 +349,28 @@ public  final class ShutdownRequest extends
       return this;
     }
 
-    private int code_ ;
+    private int status_ ;
     /**
-     * <code>optional int32 code = 1;</code>
+     * <code>optional int32 status = 1;</code>
      */
-    public int getCode() {
-      return code_;
+    public int getStatus() {
+      return status_;
     }
     /**
-     * <code>optional int32 code = 1;</code>
+     * <code>optional int32 status = 1;</code>
      */
-    public Builder setCode(int value) {
+    public Builder setStatus(int value) {
       
-      code_ = value;
+      status_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 code = 1;</code>
+     * <code>optional int32 status = 1;</code>
      */
-    public Builder clearCode() {
+    public Builder clearStatus() {
       
-      code_ = 0;
+      status_ = 0;
       onChanged();
       return this;
     }
@@ -385,39 +385,39 @@ public  final class ShutdownRequest extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:org.wcx.dfs.namenode.rpc.ShutdownRequest)
+    // @@protoc_insertion_point(builder_scope:org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:org.wcx.dfs.namenode.rpc.ShutdownRequest)
-  private static final org.wcx.dfs.namenode.rpc.model.ShutdownRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:org.wcx.dfs.namenode.rpc.InformReplicaReceivedResponse)
+  private static final InformReplicaReceivedResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new org.wcx.dfs.namenode.rpc.model.ShutdownRequest();
+    DEFAULT_INSTANCE = new InformReplicaReceivedResponse();
   }
 
-  public static org.wcx.dfs.namenode.rpc.model.ShutdownRequest getDefaultInstance() {
+  public static InformReplicaReceivedResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<ShutdownRequest>
-      PARSER = new com.google.protobuf.AbstractParser<ShutdownRequest>() {
-    public ShutdownRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<InformReplicaReceivedResponse>
+      PARSER = new com.google.protobuf.AbstractParser<InformReplicaReceivedResponse>() {
+    public InformReplicaReceivedResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ShutdownRequest(input, extensionRegistry);
+        return new InformReplicaReceivedResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<ShutdownRequest> parser() {
+  public static com.google.protobuf.Parser<InformReplicaReceivedResponse> parser() {
     return PARSER;
   }
 
-  @java.lang.Override
-  public com.google.protobuf.Parser<ShutdownRequest> getParserForType() {
+  @Override
+  public com.google.protobuf.Parser<InformReplicaReceivedResponse> getParserForType() {
     return PARSER;
   }
 
-  public org.wcx.dfs.namenode.rpc.model.ShutdownRequest getDefaultInstanceForType() {
+  public InformReplicaReceivedResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

@@ -37,9 +37,21 @@ public class FSNamesystem {
      */
     private long checkpointTxid;
 
-    public FSNamesystem() {
+    /**
+     * 存放每个文件对应的副本所在的Datanode信息
+     */
+    private Map<String, List<DataNodeInfo>> replicasByFilename =
+            new HashMap<>();
+
+    /**
+     * 数据节点管理组件
+     */
+    private DataNodeManager datanodeManager;
+
+    public FSNamesystem(DataNodeManager datanodeManager) {
         this.directory = new FSDirectory();
         this.editlog = new FSEditlog(this);
+        this.datanodeManager = datanodeManager;
         recoverNamespace();
     }
 
@@ -309,5 +321,18 @@ public class FSNamesystem {
         }
     }
 
+    public void addReceivedReplica(String hostname, String ip, String filename) throws Exception {
+        synchronized (replicasByFilename) {
+            List<DataNodeInfo> replicas = replicasByFilename.get(filename);
+            if (replicas == null) {
+                replicas = new ArrayList<>();
+                replicasByFilename.put(filename, replicas);
+            }
+
+            DataNodeInfo datanode = datanodeManager.getDatanode(ip, hostname);
+
+            replicas.add(datanode);
+        }
+    }
 
 }
