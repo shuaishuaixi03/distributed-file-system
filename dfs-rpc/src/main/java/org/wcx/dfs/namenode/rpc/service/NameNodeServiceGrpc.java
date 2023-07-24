@@ -102,6 +102,15 @@ public class NameNodeServiceGrpc {
               "org.wcx.dfs.namenode.rpc.NameNodeService", "informReplicaReceived"),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest,
+      org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse> METHOD_REPORT_COMPLETE_STORAGE_INFO =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.wcx.dfs.namenode.rpc.NameNodeService", "reportCompleteStorageInfo"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse.getDefaultInstance()));
 
   public static NameNodeServiceStub newStub(io.grpc.Channel channel) {
     return new NameNodeServiceStub(channel);
@@ -145,6 +154,9 @@ public class NameNodeServiceGrpc {
 
     public void informReplicaReceived(org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest request,
         io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse> responseObserver);
+
+    public void reportCompleteStorageInfo(org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse> responseObserver);
   }
 
   public static interface NameNodeServiceBlockingClient {
@@ -166,6 +178,8 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.AllocateDataNodesResponse allocateDataNodes(org.wcx.dfs.namenode.rpc.model.AllocateDataNodesRequest request);
 
     public org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse informReplicaReceived(org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest request);
+
+    public org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse reportCompleteStorageInfo(org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest request);
   }
 
   public static interface NameNodeServiceFutureClient {
@@ -196,6 +210,9 @@ public class NameNodeServiceGrpc {
 
     public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse> informReplicaReceived(
         org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse> reportCompleteStorageInfo(
+        org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest request);
   }
 
   public static class NameNodeServiceStub extends io.grpc.stub.AbstractStub<NameNodeServiceStub>
@@ -277,6 +294,13 @@ public class NameNodeServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_INFORM_REPLICA_RECEIVED, getCallOptions()), request, responseObserver);
     }
+
+    @Override
+    public void reportCompleteStorageInfo(org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest request,
+        io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_REPORT_COMPLETE_STORAGE_INFO, getCallOptions()), request, responseObserver);
+    }
   }
 
   public static class NameNodeServiceBlockingStub extends io.grpc.stub.AbstractStub<NameNodeServiceBlockingStub>
@@ -348,6 +372,12 @@ public class NameNodeServiceGrpc {
     public org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse informReplicaReceived(org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_INFORM_REPLICA_RECEIVED, getCallOptions(), request);
+    }
+
+    @Override
+    public org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse reportCompleteStorageInfo(org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_REPORT_COMPLETE_STORAGE_INFO, getCallOptions(), request);
     }
   }
 
@@ -430,6 +460,13 @@ public class NameNodeServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_INFORM_REPLICA_RECEIVED, getCallOptions()), request);
     }
+
+    @Override
+    public com.google.common.util.concurrent.ListenableFuture<org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse> reportCompleteStorageInfo(
+        org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_REPORT_COMPLETE_STORAGE_INFO, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REGISTER = 0;
@@ -441,6 +478,7 @@ public class NameNodeServiceGrpc {
   private static final int METHODID_CREATE = 6;
   private static final int METHODID_ALLOCATE_DATA_NODES = 7;
   private static final int METHODID_INFORM_REPLICA_RECEIVED = 8;
+  private static final int METHODID_REPORT_COMPLETE_STORAGE_INFO = 9;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -493,6 +531,10 @@ public class NameNodeServiceGrpc {
         case METHODID_INFORM_REPLICA_RECEIVED:
           serviceImpl.informReplicaReceived((org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest) request,
               (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse>) responseObserver);
+          break;
+        case METHODID_REPORT_COMPLETE_STORAGE_INFO:
+          serviceImpl.reportCompleteStorageInfo((org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest) request,
+              (io.grpc.stub.StreamObserver<org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -575,6 +617,13 @@ public class NameNodeServiceGrpc {
               org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedRequest,
               org.wcx.dfs.namenode.rpc.model.InformReplicaReceivedResponse>(
                 serviceImpl, METHODID_INFORM_REPLICA_RECEIVED)))
+        .addMethod(
+          METHOD_REPORT_COMPLETE_STORAGE_INFO,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoRequest,
+              org.wcx.dfs.namenode.rpc.model.ReportCompleteStorageInfoResponse>(
+                serviceImpl, METHODID_REPORT_COMPLETE_STORAGE_INFO)))
         .build();
   }
 }

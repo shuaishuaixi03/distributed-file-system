@@ -409,10 +409,16 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
         responseObserver.onCompleted();
     }
 
+
+    /**
+     * 数据节点增量上报存储的文件信息
+     * @param request
+     * @param responseObserver
+     */
     @Override
     public void informReplicaReceived(InformReplicaReceivedRequest request, StreamObserver<InformReplicaReceivedResponse> responseObserver) {
-        String hostname = request.getHostname();
         String ip = request.getIp();
+        String hostname = request.getHostname();
         String filename = request.getFilename();
 
         InformReplicaReceivedResponse response = null;
@@ -432,6 +438,33 @@ public class NameNodeServiceImpl implements NameNodeServiceGrpc.NameNodeService{
                     .build();
         }
 
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+
+    /**
+     * 数据节点全量上报存储的文件信息
+     * @param request
+     * @param responseObserver
+     */
+    @Override
+    public void reportCompleteStorageInfo(ReportCompleteStorageInfoRequest request, StreamObserver<ReportCompleteStorageInfoResponse> responseObserver) {
+        String ip = request.getIp();
+        String hostname = request.getHostname();
+        String filenamesJson = request.getFilenames();
+        Long storedDataSize = request.getStoredDataSize();
+
+        datanodeManager.setStoredDataSize(ip, hostname, storedDataSize);
+        JSONArray filenames = JSONArray.parseArray(filenamesJson);
+        for (int i = 0; i < filenames.size(); i ++) {
+            String filename = filenames.getString(i);
+            namesystem.addReceivedReplica(ip, hostname, filename);
+        }
+
+        ReportCompleteStorageInfoResponse response = ReportCompleteStorageInfoResponse.newBuilder()
+                .setStatus(STATUS_SUCCESS)
+                .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

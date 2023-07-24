@@ -104,6 +104,16 @@ public final class NameNodeRpcModel {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -135,8 +145,12 @@ public final class NameNodeRpcModel {
       "\034InformReplicaReceivedRequest\022\n\n\002ip\030\001 \001(",
       "\t\022\020\n\010hostname\030\002 \001(\t\022\020\n\010filename\030\003 \001(\t\"/\n" +
       "\035InformReplicaReceivedResponse\022\016\n\006status" +
-      "\030\001 \001(\005B4\n\036org.wcx.dfs.namenode.rpc.model" +
-      "B\020NameNodeRpcModelP\001b\006proto3"
+      "\030\001 \001(\005\"k\n ReportCompleteStorageInfoReque" +
+      "st\022\n\n\002ip\030\001 \001(\t\022\020\n\010hostname\030\002 \001(\t\022\021\n\tfile" +
+      "names\030\003 \001(\t\022\026\n\016storedDataSize\030\004 \001(\003\"3\n!R" +
+      "eportCompleteStorageInfoResponse\022\016\n\006stat" +
+      "us\030\001 \001(\005B4\n\036org.wcx.dfs.namenode.rpc.mod" +
+      "elB\020NameNodeRpcModelP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -257,6 +271,18 @@ public final class NameNodeRpcModel {
     internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_wcx_dfs_namenode_rpc_InformReplicaReceivedResponse_descriptor,
+        new String[] { "Status", });
+    internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoRequest_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoRequest_descriptor,
+        new String[] { "Ip", "Hostname", "Filenames", "StoredDataSize", });
+    internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoResponse_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_wcx_dfs_namenode_rpc_ReportCompleteStorageInfoResponse_descriptor,
         new String[] { "Status", });
   }
 

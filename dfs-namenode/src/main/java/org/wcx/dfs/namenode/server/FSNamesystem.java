@@ -321,7 +321,7 @@ public class FSNamesystem {
         }
     }
 
-    public void addReceivedReplica(String hostname, String ip, String filename) throws Exception {
+    public void addReceivedReplica(String hostname, String ip, String filename) {
         synchronized (replicasByFilename) {
             List<DataNodeInfo> replicas = replicasByFilename.get(filename);
             if (replicas == null) {

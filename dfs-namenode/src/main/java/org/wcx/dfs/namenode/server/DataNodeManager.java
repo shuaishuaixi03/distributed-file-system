@@ -76,6 +76,17 @@ public class DataNodeManager {
     }
 
     /**
+     * 设置一个数据节点的存储数据大小
+     * @param ip
+     * @param hostname
+     * @param storedDataSize
+     */
+    public void setStoredDataSize(String ip, String hostname, long storedDataSize) {
+        DataNodeInfo datanode = datanodes.get(ip + "-" + hostname);
+        datanode.setStoredDataSize(storedDataSize);
+    }
+
+    /**
      * 获取DataNode信息
      * @param ip
      * @param hostname
